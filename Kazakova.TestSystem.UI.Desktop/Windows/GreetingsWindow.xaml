@@ -1,0 +1,11 @@
+﻿<Window x:Class="Kazakova.TestSystem.UI.Desktop.GreetingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Grid>
+        <Label x:Name="Header" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontFamily="Buxton Sketch" FontSize="36" Width="800" HorizontalContentAlignment="Center"/>
+        <Button Content="Выход" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Width="98" Height="51" FontFamily="Buxton Sketch" FontSize="30" IsCancel="True" Click="Button_Click"/>
+        <Button Content="Прочитать инструкцию" HorizontalAlignment="Left" Margin="113,510,0,0" VerticalAlignment="Top" Width="340" Height="51" FontFamily="Buxton Sketch" FontSize="30" Click="Button_Click_1"/>
+        <Button Content="Начать тестирование" HorizontalAlignment="Left" Margin="460,510,0,0" VerticalAlignment="Top" Width="324" Height="51" FontFamily="Buxton Sketch" FontSize="30" IsDefault="True" Click="Button_Click_2"/>
+    </Grid>
+</Window>

@@ -1,0 +1,24 @@
+﻿<Window x:Class="Kazakova.TestSystem.UI.Desktop.Windows.CriteriaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+		xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
+		xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
+        Height="600" Width="1280" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+	<Grid>
+		<Label x:Name="Header" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" FontFamily="Buxton Sketch" FontSize="36" Width="1264" HorizontalContentAlignment="Center" Height="55"/>
+		<Label Content="Исходный код" HorizontalAlignment="Left" FontFamily="Buxton Sketch" Margin="10,83,0,0" FontSize="26" VerticalAlignment="Top"/>
+		<Label Content="Граф" HorizontalAlignment="Left" FontFamily="Buxton Sketch" Margin="284,83,0,0" FontSize="26" VerticalAlignment="Top"/>
+		<Label Content="Пути тестирования" HorizontalAlignment="Left" FontFamily="Buxton Sketch" Margin="540,83,0,0" FontSize="26" VerticalAlignment="Top"/>
+		<TextBox x:Name="CodeContent" Margin="10,130,995,10" IsReadOnly="True" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"></TextBox>
+		<ListBox x:Name="PathListBox" HorizontalAlignment="Left" Height="431" Margin="540,130,0,0" FontSize="26" FontFamily="Buxton Sketch" VerticalAlignment="Top" Width="133" SelectionChanged="PathListBox_SelectionChanged"/>
+		<graphsharp:GraphLayout x:Name="graphLayout"
+								LayoutAlgorithmType="EfficientSugiyama"
+								HighlightAlgorithmType="Simple" Margin="284,130,754,10" />
+		<zoom:ZoomControl Margin="678,125,10,10">
+			<graphsharp:GraphLayout x:Name="pathLayout"
+								LayoutAlgorithmType="EfficientSugiyama"
+								HighlightAlgorithmType="Simple" Margin="-1,0,0,0"/>
+		</zoom:ZoomControl>
+	</Grid>
+</Window>
