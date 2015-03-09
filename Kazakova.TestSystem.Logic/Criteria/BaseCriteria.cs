@@ -35,7 +35,7 @@
 		protected abstract IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex);
 
 
-		protected List<GraphPath> GeneratePathes()
+		protected virtual List<GraphPath> GeneratePathes()
 		{
 			return GeneratePathes(new GraphPath(controlGraph), 0).ToList();
 		}

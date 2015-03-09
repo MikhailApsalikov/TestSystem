@@ -49,5 +49,10 @@
 		{
 			Items.AddRange(graph.Where(item => item.Id < scope.End && item.Id > scope.Begin).OfType<IValuable>());
 		}
+
+		public bool IsSubsetOf(GraphPath path)
+		{
+			return new HashSet<IValuable>(Items).IsProperSubsetOf(new HashSet<IValuable>(path.Items));
+		}
 	}
 }
