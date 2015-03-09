@@ -14,7 +14,7 @@
 		{
 		}
 
-		protected override IEnumerable<GraphPath> HandleIf(GraphPath path, IfCgi ifCgi)
+		protected override IEnumerable<GraphPath> HandleIf(GraphPath path, IfCgi ifCgi, int endIndex = Int32.MaxValue)
 		{
 			int scopeEnd;
 			if (!ifCgi.Scope.HasValuableItems && (ifCgi.ScopeAlternative == null || !ifCgi.ScopeAlternative.HasValuableItems))
@@ -56,12 +56,12 @@
 			throw new NotImplementedException();
 		}
 
-		protected override IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi)
+		protected override IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi, int endIndex = Int32.MaxValue)
 		{
 			throw new NotImplementedException();
 		}
 
-		protected override IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi)
+		protected override IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex = Int32.MaxValue)
 		{
 			return GeneratePathes(path, ((ControlGraphItem)cycleCgi).Id + 1);
 		}

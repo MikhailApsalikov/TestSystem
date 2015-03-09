@@ -28,11 +28,11 @@
 			return cachedPathes;
 		}
 
-		protected abstract IEnumerable<GraphPath> HandleIf(GraphPath path, IfCgi ifCgi);
+		protected abstract IEnumerable<GraphPath> HandleIf(GraphPath path, IfCgi ifCgi, int endIndex);
 
-		protected abstract IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi);
+		protected abstract IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi, int endIndex);
 
-		protected abstract IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi);
+		protected abstract IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex);
 
 
 		protected List<GraphPath> GeneratePathes()
@@ -49,7 +49,7 @@
 
 			if (!(controlGraph[index] is IValuable))
 			{
-				return GeneratePathes(path, index + 1);
+				return GeneratePathes(path, index + 1, endIndex);
 			}
 
 			path.Add(controlGraph[index] as IValuable);
@@ -60,20 +60,20 @@
 
 			if (ifCgi != null)
 			{
-				return HandleIf(path, ifCgi);
+				return HandleIf(path, ifCgi, endIndex);
 			}
 
 			if (switchCgi != null)
 			{
-				return HandleSwitch(path, switchCgi);
+				return HandleSwitch(path, switchCgi, endIndex);
 			}
 
 			if (cycleCgi != null)
 			{
-				return HandleCycles(path, cycleCgi);
+				return HandleCycles(path, cycleCgi, endIndex);
 			}
 
-			return GeneratePathes(path, index + 1);
+			return GeneratePathes(path, index + 1, endIndex);
 		}
 	}
 }
