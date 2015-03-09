@@ -110,6 +110,8 @@
 		{
 			foreach (var cycle in vertexes.OfType<ICycle>())
 			{
+				AddEdge(result, cycle.ShownId, GetVertexName(((IScopeOwner)cycle).Scope.NextAfterScope));
+
 				foreach (var item in GetPreviousVertexes(result, ((IScopeOwner)cycle).Scope.NextAfterScope.ShownId).ToList())
 				{
 					AddEdge(result, item, GetVertexName(cycle));

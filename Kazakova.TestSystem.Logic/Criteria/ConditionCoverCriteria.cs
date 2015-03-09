@@ -32,10 +32,10 @@
 			}
 
 			var anotherPath = path.Clone();
-			IEnumerable<GraphPath> pathes = AddScope(path, ifCgi.Scope, nextAfterScope, endIndex);
+			IEnumerable<GraphPath> pathes = AddScope(path, ifCgi.Scope, endIndex);
 			if (ifCgi.ScopeAlternative != null)
 			{
-				pathes = pathes.Union(AddScope(anotherPath, ifCgi.ScopeAlternative, nextAfterScope, endIndex));
+				pathes = pathes.Union(AddScope(anotherPath, ifCgi.ScopeAlternative, endIndex));
 			}
 			else
 			{
@@ -58,7 +58,7 @@
 			foreach (var item in switchCgi.Cases.Where(caseItem => caseItem.Scope.HasValuableItems))
 			{
 				var anotherPath = path.Clone();
-				pathes = pathes.Union(AddScope(anotherPath, item.Scope, nextAfterScope, endIndex));
+				pathes = pathes.Union(AddScope(anotherPath, item.Scope, endIndex));
 			}
 
 			if (switchCgi.Default == null || !switchCgi.Default.Scope.HasValuableItems)
@@ -69,7 +69,7 @@
 			else
 			{
 				var anotherPath = path.Clone();
-				pathes = pathes.Union(AddScope(anotherPath, switchCgi.Default.Scope, nextAfterScope, endIndex));
+				pathes = pathes.Union(AddScope(anotherPath, switchCgi.Default.Scope, endIndex));
 
 				if (switchCgi.Cases.Any(caseItem => !caseItem.Scope.HasValuableItems) && switchCgi.Cases.Any())
 				{
@@ -91,13 +91,19 @@
 		{
 			int nextAfterScope = ((ControlGraphItem)cycleCgi.Scope.NextAfterScope).Id;
 			var anotherPath = path.Clone();
-			AddScope(anotherPath, cycleCgi.Scope, nextAfterScope, endIndex);
-			var branch1 = GeneratePathes(path, cycleCgi.Scope.End + 1, endIndex);
-			var branch2 = GeneratePathes(anotherPath, cycleCgi.Scope.End + 1, endIndex);
-			return branch1.Union(branch2).ToList();
+			List<GraphPath> pathes = AddScope(anotherPath, cycleCgi.Scope, endIndex).ToList();
+			pathes.Add(path.Clone());
+			List<GraphPath> result = new List<GraphPath>();
+			
+			foreach (var p in pathes)
+			{
+				result.AddRange(GeneratePathes(p, nextAfterScope, endIndex));
+			}
+
+			return pathes;
 		}
 
-		private IEnumerable<GraphPath> AddScope(GraphPath path, Scope scope, int nextAfterScope, int endIndex)
+		private IEnumerable<GraphPath> AddScope(GraphPath path, Scope scope, int endIndex)
 		{
 			if (!scope.HasNestedConditions)
 			{
