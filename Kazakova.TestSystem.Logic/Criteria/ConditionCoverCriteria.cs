@@ -37,6 +37,10 @@
 			{
 				pathes = pathes.Union(AddScope(anotherPath, ifCgi.ScopeAlternative, nextAfterScope, endIndex));
 			}
+			else
+			{
+				pathes = pathes.Union(new List<GraphPath>() { anotherPath });
+			}
 
 			List<GraphPath> result = new List<GraphPath>();
 			foreach (var p in pathes)
@@ -49,12 +53,12 @@
 
 		protected override IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi, int endIndex = Int32.MaxValue)
 		{
-			List<GraphPath> pathes = new List<GraphPath>();
+			int nextAfterScope = ((ControlGraphItem)switchCgi.Scope.NextAfterScope).Id;
+			IEnumerable<GraphPath> pathes = new List<GraphPath>();
 			foreach (var item in switchCgi.Cases.Where(caseItem => caseItem.Scope.HasValuableItems))
 			{
 				var anotherPath = path.Clone();
-				anotherPath.AddScope(item.Scope);
-				pathes = pathes.Union(GeneratePathes(anotherPath, switchCgi.Scope.End + 1, endIndex)).ToList();
+				pathes = pathes.Union(AddScope(anotherPath, item.Scope, nextAfterScope, endIndex));
 			}
 
 			if (switchCgi.Default == null || !switchCgi.Default.Scope.HasValuableItems)
@@ -65,8 +69,7 @@
 			else
 			{
 				var anotherPath = path.Clone();
-				anotherPath.AddScope(switchCgi.Default.Scope);
-				pathes = pathes.Union(GeneratePathes(anotherPath, switchCgi.Scope.End + 1, endIndex)).ToList();
+				pathes = pathes.Union(AddScope(anotherPath, switchCgi.Default.Scope, nextAfterScope, endIndex));
 
 				if (switchCgi.Cases.Any(caseItem => !caseItem.Scope.HasValuableItems) && switchCgi.Cases.Any())
 				{
@@ -74,13 +77,21 @@
 					pathes = pathes.Union(GeneratePathes(thirdPath, switchCgi.Scope.End + 1, endIndex)).ToList();
 				}
 			}
-			return pathes;
+
+			List<GraphPath> result = new List<GraphPath>();
+			foreach (var p in pathes)
+			{
+				result.AddRange(GeneratePathes(p, nextAfterScope, endIndex));
+			}
+
+			return result;
 		}
 
 		protected override IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex = Int32.MaxValue)
 		{
+			int nextAfterScope = ((ControlGraphItem)cycleCgi.Scope.NextAfterScope).Id;
 			var anotherPath = path.Clone();
-			anotherPath.AddScope(cycleCgi.Scope);
+			AddScope(anotherPath, cycleCgi.Scope, nextAfterScope, endIndex);
 			var branch1 = GeneratePathes(path, cycleCgi.Scope.End + 1, endIndex);
 			var branch2 = GeneratePathes(anotherPath, cycleCgi.Scope.End + 1, endIndex);
 			return branch1.Union(branch2).ToList();

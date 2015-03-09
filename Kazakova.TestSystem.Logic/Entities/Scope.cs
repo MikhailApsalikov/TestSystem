@@ -164,7 +164,13 @@
 
 					if (graph[i] is IScopeAlternativeOwner)
 					{
-						if (((IScopeAlternativeOwner)graph[i]).ScopeAlternative.IsIncluded(Begin))
+						var scopeAlternative = ((IScopeAlternativeOwner)graph[i]).ScopeAlternative;
+						if (scopeAlternative == null)
+						{
+							return;
+						}
+
+						if (scopeAlternative.IsIncluded(Begin))
 						{
 							this.ParentScopeOwner = graph[i] as IScopeOwner;
 							this.ParentScope = (this.ParentScopeOwner as IScopeAlternativeOwner).ScopeAlternative;
