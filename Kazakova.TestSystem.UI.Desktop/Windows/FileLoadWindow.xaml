@@ -6,8 +6,8 @@
 		xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
         Height="600" Width="1280" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
 	<Grid>
-		<Label x:Name="Header" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Buxton Sketch" FontSize="36" Width="1274" HorizontalContentAlignment="Center" Height="62"/>
-		<Label x:Name="Text" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="1254" Height="45" FontSize="20" FontFamily="Buxton Sketch"/>
+        <Label x:Name="Header" Foreground="#FF290E85" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="36" Width="1274" HorizontalContentAlignment="Center" Height="62"/>
+        <Label x:Name="Text" Foreground="#FF290E85" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="1254" Height="45" FontSize="13" FontFamily="Arial"/>
 		<TextBox x:Name="CodeContent" Margin="10,117,931,66" IsReadOnly="True" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"></TextBox>
 		<zoom:ZoomControl Margin="348,112,10,131">
 			<graphsharp:GraphLayout x:Name="graphLayout"
@@ -15,11 +15,11 @@
 								HighlightAlgorithmType="Simple" Margin="-1,0,0,0">
 			</graphsharp:GraphLayout>
 		</zoom:ZoomControl>
-		<Button Content="Назад" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Width="98" Height="51" FontFamily="Buxton Sketch" FontSize="30" IsCancel="True" Click="Button_Click"/>
-		<Button Content="Загрузить файл" HorizontalAlignment="Left" Margin="113,510,0,0" VerticalAlignment="Top" Width="218" Height="51" FontFamily="Buxton Sketch" FontSize="30" Click="Button_Click_1"/>
-		<Button x:Name="OperatorsCover" HorizontalAlignment="Left" Margin="362,510,0,0" VerticalAlignment="Top" Width="455" Height="51" FontFamily="Buxton Sketch" FontSize="30" Click="OperatorsCover_Click" />
-		<Button x:Name="SolutionsCover" HorizontalAlignment="Left" Margin="822,510,0,0" VerticalAlignment="Top" Width="442" Height="51" FontFamily="Buxton Sketch" FontSize="30" Click="SolutionsCover_Click" />
-		<Button x:Name="ConditionsCover" HorizontalAlignment="Left" Margin="822,454,0,0" VerticalAlignment="Top" Width="442" Height="51" FontFamily="Buxton Sketch" FontSize="30" Click="ConditionsCover_Click" />
-		<Button x:Name="SolutionsAndConditionsCover" HorizontalAlignment="Left" Margin="362,454,0,0" VerticalAlignment="Top" Width="455" Height="51" FontFamily="Buxton Sketch" FontSize="30" Click="SolutionsAndConditionsCover_Click"/>
+		<Button Content="Назад" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Width="98" Height="51" FontFamily="Arial" FontSize="20" IsCancel="True" Click="Button_Click"/>
+		<Button Content="Загрузить файл" HorizontalAlignment="Left" Margin="113,510,0,0" VerticalAlignment="Top" Width="218" Height="51" FontFamily="Arial" FontSize="20" Click="Button_Click_1"/>
+		<Button x:Name="OperatorsCover" HorizontalAlignment="Left" Margin="362,510,0,0" VerticalAlignment="Top" Width="455" Height="51" FontFamily="Arial" FontSize="20" Click="OperatorsCover_Click" />
+		<Button x:Name="SolutionsCover" HorizontalAlignment="Left" Margin="822,510,0,0" VerticalAlignment="Top" Width="442" Height="51" FontFamily="Arial" FontSize="20" Click="SolutionsCover_Click" />
+		<Button x:Name="ConditionsCover" HorizontalAlignment="Left" Margin="822,454,0,0" VerticalAlignment="Top" Width="442" Height="51" FontFamily="Arial" FontSize="20" Click="ConditionsCover_Click" />
+		<Button x:Name="SolutionsAndConditionsCover" HorizontalAlignment="Left" Margin="362,454,0,0" VerticalAlignment="Top" Width="455" Height="51" FontFamily="Arial" FontSize="20" Click="SolutionsAndConditionsCover_Click"/>
 	</Grid>
 </Window>

@@ -17,7 +17,7 @@ namespace Kazakova.TestSystem.UI.Desktop.Content
 
 		public const String InstructionHeader = @"Пройдите несколько простых шагов:";
 
-		public const String FileLoadHeader = "Загрузка кода";
+		public const String FileLoadHeader = "Загрузка программного кода";
 
 		public const String ShowGraph = "Показать управляющий граф программы";
 
@@ -53,6 +53,6 @@ namespace Kazakova.TestSystem.UI.Desktop.Content
     -Критерий покрытия решений/условий
 ";
 
-		public static readonly String fileLoadText = @"Файл должен иметь расширение .txt .cs или .java, должен быть компилируемым и содержать не более " + MaxFileSize.ToString() + @" строк кода.";
+		public static readonly String fileLoadText = @"Пожалуйста, загрузите файл с программным кодом для тестирования. Файл должен иметь расширение .txt .cs или .java, должен быть компилируемым и содержать не более " + MaxFileSize.ToString() + @" строк кода.";
 	}
 }

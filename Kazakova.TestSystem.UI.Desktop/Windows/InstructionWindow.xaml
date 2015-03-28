@@ -1,11 +1,12 @@
-﻿<Window x:Class="Kazakova.TestSystem.UI.Desktop.InstructionWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Kazakova.TestSystem.UI.Desktop.InstructionWindow"
         Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Grid>
-        <Label x:Name="Header" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontFamily="Buxton Sketch" FontSize="36" Width="800" HorizontalContentAlignment="Center"/>
-        <Button Content="Назад" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Width="98" Height="51" FontFamily="Buxton Sketch" FontSize="30" IsCancel="True" Click="Button_Click"/>
-        <Button Content="Начать тестирование" HorizontalAlignment="Left" Margin="460,510,0,0" VerticalAlignment="Top" Width="324" Height="51" FontFamily="Buxton Sketch" FontSize="30" IsDefault="True" Click="Button_Click_1"/>
-        <Label x:Name="Text"  HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" Width="774" Height="416" FontSize="20" FontFamily="Buxton Sketch"/>
+        <Label x:Name="Header" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="25" Width="600" HorizontalContentAlignment="Center" Height="88"/>
+        <Button Content="Назад" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Width="98" Height="51" FontFamily="Arial" FontSize="30" IsCancel="True" Click="Button_Click"/>
+        <Button Content="Начать тестирование" HorizontalAlignment="Left" Margin="460,510,0,0" VerticalAlignment="Top" Width="324" Height="51" FontFamily="Arial" FontSize="30" IsDefault="True" Click="Button_Click_1"/>
+        <Label x:Name="Text"  HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" Width="774" Height="416" FontSize="15" FontFamily="Arial"/>
     </Grid>
 </Window>

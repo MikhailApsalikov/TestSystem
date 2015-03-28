@@ -42,7 +42,7 @@ namespace Kazakova.TestSystem.UI.Desktop.Windows
 					this.Header.Content = StringResources.SolutionsCoverCriteria;
 					break;
 				case Criteries.ConditionsCover:
-					this.Header.Content = StringResources.ConditionsCoverCriteria;
+                    this.Header.Content = StringResources.SolutionsCoverCriteria;
 					break;
 				case Criteries.SolutionsAndConditionsCover:
 					this.Header.Content = StringResources.SolutionsAndConditionsCoverCriteria;

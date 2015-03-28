@@ -30,7 +30,7 @@ namespace Kazakova.TestSystem.UI.Desktop
 		private void InitializeFields()
 		{
 			this.Title = StringResources.ProgramName;
-			this.Header.Content = StringResources.GreetingsMessage;
+			//this.Header.Content = StringResources.GreetingsMessage;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -66,5 +66,9 @@ namespace Kazakova.TestSystem.UI.Desktop
 				e.Cancel = true;
 			}
 		}
+
+  
+
+      
 	}
 }

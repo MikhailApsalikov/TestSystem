@@ -1,11 +1,25 @@
-﻿<Window x:Class="Kazakova.TestSystem.UI.Desktop.GreetingsWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Kazakova.TestSystem.UI.Desktop.GreetingsWindow"
         Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Grid>
-        <Label x:Name="Header" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontFamily="Buxton Sketch" FontSize="36" Width="800" HorizontalContentAlignment="Center"/>
-        <Button Content="Выход" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Width="98" Height="51" FontFamily="Buxton Sketch" FontSize="30" IsCancel="True" Click="Button_Click"/>
-        <Button Content="Прочитать инструкцию" HorizontalAlignment="Left" Margin="113,510,0,0" VerticalAlignment="Top" Width="340" Height="51" FontFamily="Buxton Sketch" FontSize="30" Click="Button_Click_1"/>
-        <Button Content="Начать тестирование" HorizontalAlignment="Left" Margin="460,510,0,0" VerticalAlignment="Top" Width="324" Height="51" FontFamily="Buxton Sketch" FontSize="30" IsDefault="True" Click="Button_Click_2"/>
+        <Label x:Name="Header" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="30" Width="800" HorizontalContentAlignment="Center"/>
+        <Button Content="Выход" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Width="98" Height="51" FontFamily="Arial" FontSize="30" IsCancel="True" Click="Button_Click"/>
+        <Button Content="Прочитать инструкцию" HorizontalAlignment="Left" Margin="113,510,0,0" VerticalAlignment="Top" Width="340" Height="51" FontFamily="Arial" FontSize="30" Click="Button_Click_1"/>
+        <Button Content="Начать обучение" HorizontalAlignment="Left" Margin="460,510,0,0" VerticalAlignment="Top" Width="324" Height="51" FontFamily="Arial" FontSize="30" IsDefault="True" Click="Button_Click_2" BorderThickness="3"/>
+        <Image HorizontalAlignment="Left" Height="157" Margin="10,348,0,0" VerticalAlignment="Top" Width="154" Source="/Kazakova.TestSystem.UI.Desktop;component/Рисунок1.jpg"/>
+        <Image HorizontalAlignment="Left" Height="189" Margin="551,316,0,0" VerticalAlignment="Top" Width="152" Source="/Kazakova.TestSystem.UI.Desktop;component/Рисунок2.jpg"/>
+        <Image HorizontalAlignment="Left" Height="125" Margin="654,223,0,0" VerticalAlignment="Top" Width="116" Source="рисунок  7.jpg" RenderTransformOrigin="0.743,0.621"/>
+        <Image HorizontalAlignment="Left" Height="155" Margin="409,247,0,0" VerticalAlignment="Top" Width="155" Source="рисунок 8.jpg"/>
+        <RichTextBox HorizontalAlignment="Left" Height="193" Margin="34,30,0,0" VerticalAlignment="Top" Width="669" BorderThickness="0" FontSize="30" BorderBrush="#FF8D1A1A" Background="White" CaretBrush="#FFAE2525" Foreground="#FF290E85" FontFamily="Arial" FontWeight="Thin">
+            <FlowDocument>
+                <Paragraph Padding="6,0,1,0" TextAlignment="Center">
+                    <Run Text="Вас приветствует программа для изучения способов тестирования логики программного кода. Пожалуйста,ознакомьтесь с инструкцией, если вы еще не работали с данной программой."/>
+                                   </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+
+
     </Grid>
 </Window>
