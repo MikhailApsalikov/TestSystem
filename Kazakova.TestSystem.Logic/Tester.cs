@@ -1,24 +1,21 @@
 ﻿namespace Kazakova.TestSystem.Logic
 {
-	using Kazakova.TestSystem.Logic.Criteria;
-	using Kazakova.TestSystem.Logic.Entities;
-	using Kazakova.TestSystem.Logic.Enums;
-	using Kazakova.TestSystem.Logic.Services;
-	using QuickGraph;
 	using System;
 	using System.Collections.Generic;
-
-	using System.Linq;
+	using Criteria;
+	using Entities;
+	using Enums;
+	using QuickGraph;
+	using Services;
 
 	public class Tester
 	{
-		private ControlGraph controlGraph;
-
 		internal Dictionary<Criteries, BaseCriteria> criteries = new Dictionary<Criteries, BaseCriteria>();
+		private readonly ControlGraph controlGraph;
 
 		public Tester(string data)
 		{
-			this.controlGraph = new ControlGraph(data);
+			controlGraph = new ControlGraph(data);
 		}
 
 		public BidirectionalGraph<object, IEdge<object>> GetBidirectionGraphForWholeGraph()
@@ -47,17 +44,16 @@
 					case Criteries.OperatorsCover:
 						criteries[criteria] = new OperatorsCoverCriteria(controlGraph);
 						break;
-
 					case Criteries.SolutionsCover:
-						throw new NotImplementedException();
-					case Criteries.ConditionsCover:
-						criteries[criteria] = new ConditionCoverCriteria(controlGraph);
+						criteries[criteria] = new SolutionCoverCriteria(controlGraph);
 						break;
-
+					case Criteries.ConditionsCover:
+						throw new NotImplementedException();
 					case Criteries.SolutionsAndConditionsCover:
 						throw new NotImplementedException();
 					default:
-						throw new ArgumentException("Метод GetBidirectionGraphForPath получил в качестве параметра несуществующий критерий");
+						throw new ArgumentException(
+							"Метод GetBidirectionGraphForPath получил в качестве параметра несуществующий критерий");
 				}
 			}
 		}
