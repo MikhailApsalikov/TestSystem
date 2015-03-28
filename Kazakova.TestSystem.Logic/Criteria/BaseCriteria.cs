@@ -1,16 +1,15 @@
 ﻿namespace Kazakova.TestSystem.Logic.Criteria
 {
-	using Kazakova.TestSystem.Logic.Entities;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Entities;
+	using Entities.ControlGraphItems;
+	using Entities.ControlGraphItems.Interfaces;
 
 	internal abstract class BaseCriteria
 	{
 		protected List<GraphPath> cachedPathes;
-
 		protected ControlGraph controlGraph;
 
 		public BaseCriteria(ControlGraph controlGraph)
@@ -28,12 +27,12 @@
 			return cachedPathes;
 		}
 
-		protected abstract IEnumerable<GraphPath> HandleIf(GraphPath path, IfCgi ifCgi, int endIndex);
+		protected abstract IEnumerable<GraphPath> HandleIf(GraphPath path, IfCgi ifCgi, int endIndex = Int32.MaxValue);
 
-		protected abstract IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi, int endIndex);
+		protected abstract IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi,
+			int endIndex = Int32.MaxValue);
 
-		protected abstract IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex);
-
+		protected abstract IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex = Int32.MaxValue);
 
 		protected virtual List<GraphPath> GeneratePathes()
 		{
@@ -44,7 +43,7 @@
 		{
 			if (index >= controlGraph.Count || index >= endIndex)
 			{
-				return new List<GraphPath>() { path };
+				return new List<GraphPath> {path};
 			}
 
 			if (!(controlGraph[index] is IValuable))
@@ -54,9 +53,9 @@
 
 			path.Add(controlGraph[index] as IValuable);
 
-			IfCgi ifCgi = controlGraph[index] as IfCgi;
-			SwitchCgi switchCgi = controlGraph[index] as SwitchCgi;
-			ICycle cycleCgi = controlGraph[index] as ICycle;
+			var ifCgi = controlGraph[index] as IfCgi;
+			var switchCgi = controlGraph[index] as SwitchCgi;
+			var cycleCgi = controlGraph[index] as ICycle;
 
 			if (ifCgi != null)
 			{

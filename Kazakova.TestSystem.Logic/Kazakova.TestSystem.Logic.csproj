@@ -72,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Criteria\BaseCriteria.cs" />
-    <Compile Include="Criteria\ConditionCoverCriteria.cs" />
+    <Compile Include="Criteria\SolutionCoverCriteria.cs" />
     <Compile Include="Criteria\OperatorsCoverCriteria.cs" />
     <Compile Include="Entities\ControlGraphItem.cs" />
     <Compile Include="Entities\ControlGraph.cs" />

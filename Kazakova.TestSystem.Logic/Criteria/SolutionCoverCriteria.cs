@@ -1,15 +1,15 @@
 ﻿namespace Kazakova.TestSystem.Logic.Criteria
 {
-	using Kazakova.TestSystem.Logic.Entities;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Entities;
+	using Entities.ControlGraphItems;
+	using Entities.ControlGraphItems.Interfaces;
 
-	internal class ConditionCoverCriteria : BaseCriteria
+	internal class SolutionCoverCriteria : BaseCriteria
 	{
-		public ConditionCoverCriteria(ControlGraph controlGraph)
+		public SolutionCoverCriteria(ControlGraph controlGraph)
 			: base(controlGraph)
 		{
 		}
@@ -19,11 +19,11 @@
 			int nextAfterScope;
 			if (ifCgi.ScopeAlternative != null)
 			{
-				nextAfterScope = ((ControlGraphItem)ifCgi.ScopeAlternative.NextAfterScope).Id;
+				nextAfterScope = ((ControlGraphItem) ifCgi.ScopeAlternative.NextAfterScope).Id;
 			}
 			else
 			{
-				nextAfterScope = ((ControlGraphItem)ifCgi.Scope.NextAfterScope).Id;
+				nextAfterScope = ((ControlGraphItem) ifCgi.Scope.NextAfterScope).Id;
 			}
 
 			if (!ifCgi.Scope.HasValuableItems && (ifCgi.ScopeAlternative == null || !ifCgi.ScopeAlternative.HasValuableItems))
@@ -32,17 +32,17 @@
 			}
 
 			var anotherPath = path.Clone();
-			IEnumerable<GraphPath> pathes = AddScope(path, ifCgi.Scope, endIndex);
+			var pathes = AddScope(path, ifCgi.Scope, endIndex);
 			if (ifCgi.ScopeAlternative != null)
 			{
 				pathes = pathes.Union(AddScope(anotherPath, ifCgi.ScopeAlternative, endIndex));
 			}
 			else
 			{
-				pathes = pathes.Union(new List<GraphPath>() { anotherPath });
+				pathes = pathes.Union(new List<GraphPath> {anotherPath});
 			}
 
-			List<GraphPath> result = new List<GraphPath>();
+			var result = new List<GraphPath>();
 			foreach (var p in pathes)
 			{
 				result.AddRange(GeneratePathes(p, nextAfterScope, endIndex));
@@ -51,9 +51,10 @@
 			return result;
 		}
 
-		protected override IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi, int endIndex = Int32.MaxValue)
+		protected override IEnumerable<GraphPath> HandleSwitch(GraphPath path, SwitchCgi switchCgi,
+			int endIndex = Int32.MaxValue)
 		{
-			int nextAfterScope = ((ControlGraphItem)switchCgi.Scope.NextAfterScope).Id;
+			var nextAfterScope = ((ControlGraphItem) switchCgi.Scope.NextAfterScope).Id;
 			IEnumerable<GraphPath> pathes = new List<GraphPath>();
 			foreach (var item in switchCgi.Cases.Where(caseItem => caseItem.Scope.HasValuableItems))
 			{
@@ -78,7 +79,7 @@
 				}
 			}
 
-			List<GraphPath> result = new List<GraphPath>();
+			var result = new List<GraphPath>();
 			foreach (var p in pathes)
 			{
 				result.AddRange(GeneratePathes(p, nextAfterScope, endIndex));
@@ -89,12 +90,12 @@
 
 		protected override IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex = Int32.MaxValue)
 		{
-			int nextAfterScope = ((ControlGraphItem)cycleCgi.Scope.NextAfterScope).Id;
+			var nextAfterScope = ((ControlGraphItem) cycleCgi.Scope.NextAfterScope).Id;
 			var anotherPath = path.Clone();
-			List<GraphPath> pathes = AddScope(anotherPath, cycleCgi.Scope, endIndex).ToList();
+			var pathes = AddScope(anotherPath, cycleCgi.Scope, endIndex).ToList();
 			pathes.Add(path.Clone());
-			List<GraphPath> result = new List<GraphPath>();
-			
+			var result = new List<GraphPath>();
+
 			foreach (var p in pathes)
 			{
 				result.AddRange(GeneratePathes(p, nextAfterScope, endIndex));
@@ -108,7 +109,7 @@
 			if (!scope.HasNestedConditions)
 			{
 				path.AddScope(scope);
-				return new List<GraphPath>() { path };
+				return new List<GraphPath> {path};
 			}
 
 			return GeneratePathes(path, scope.Begin + 1, scope.End);
