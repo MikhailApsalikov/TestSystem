@@ -1,31 +1,28 @@
 ﻿namespace Kazakova.TestSystem.Logic.Services
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 	using Kazakova.TestSystem.Logic.Entities;
 	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
 	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using QuickGraph;
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
 
 	internal static class ControlGraphCompiler
 	{
-		public static BidirectionalGraph<object, IEdge<object>> CompileBidirectionalGraph(ControlGraph ControlGraph)
+		public static BidirectionalGraph<object, IEdge<object>> CompileBidirectionalGraph(ControlGraph сontrolGraph)
 		{
 			var result = new BidirectionalGraph<object, IEdge<object>>();
 			var vertexes = new List<IValuable>();
 
-			vertexes.AddRange(ControlGraph.OfType<IValuable>());
-
-			var minVertex = vertexes.First();
-			var maxVertex = vertexes.Last();
+			vertexes.AddRange(сontrolGraph.OfType<IValuable>());
 
 			foreach (var item in vertexes)
 			{
 				result.AddVertex(item.ShownId);
 			}
 
-			for (int i = 0; i < vertexes.Count - 1; i++)
+			for (var i = 0; i < vertexes.Count - 1; i++)
 			{
 				AddEdge(result, vertexes[i], vertexes[i + 1]);
 			}
@@ -39,7 +36,7 @@
 		{
 			var result = new BidirectionalGraph<object, IEdge<object>>();
 			var vertexes = new List<IValuable>();
-			for (int i = 0; i < graphPath.Items.Count; i++)
+			for (var i = 0; i < graphPath.Items.Count; i++)
 			{
 				vertexes.Add(graphPath.Items[i]);
 			}
@@ -49,7 +46,7 @@
 			{
 				result.AddVertex(item.ShownId);
 			}
-			for (int i = 0; i < vertexes.Count - 1; i++)
+			for (var i = 0; i < vertexes.Count - 1; i++)
 			{
 				AddEdge(result, vertexes[i], vertexes[i + 1]);
 			}
@@ -76,19 +73,20 @@
 			}
 		}
 
-		private static void HandleSwitchConstructions(List<IValuable> vertexes, BidirectionalGraph<object, IEdge<object>> result)
+		private static void HandleSwitchConstructions(List<IValuable> vertexes,
+			BidirectionalGraph<object, IEdge<object>> result)
 		{
 			foreach (var switchCgi in vertexes.OfType<SwitchCgi>())
 			{
-				IValuable afterSwitch = switchCgi.Scope.NextAfterScope;
-				for (int j = 0; j < switchCgi.Cases.Count - 1; j++)
+				var afterSwitch = switchCgi.Scope.NextAfterScope;
+				for (var j = 0; j < switchCgi.Cases.Count - 1; j++)
 				{
 					AddEdge(result, switchCgi, switchCgi.Cases[j].Scope.FirstScopeitem);
 					RemoveEdge(result, switchCgi.Cases[j].Scope.LastScopeitem, switchCgi.Cases[j + 1].Scope.FirstScopeitem);
 					AddEdge(result, switchCgi.Cases[j].Scope.LastScopeitem, afterSwitch);
 				}
 
-				if (switchCgi.Cases.Any(item=>item.Scope.HasValuableItems))
+				if (switchCgi.Cases.Any(item => item.Scope.HasValuableItems))
 				{
 					var lastCase = switchCgi.Cases.Last();
 					AddEdge(result, switchCgi, lastCase.Scope.FirstScopeitem);
@@ -110,9 +108,9 @@
 		{
 			foreach (var cycle in vertexes.OfType<ICycle>())
 			{
-				AddEdge(result, cycle.ShownId, GetVertexName(((IScopeOwner)cycle).Scope.NextAfterScope));
+				AddEdge(result, cycle.ShownId, GetVertexName(cycle.Scope.NextAfterScope));
 
-				foreach (var item in GetPreviousVertexes(result, ((IScopeOwner)cycle).Scope.NextAfterScope.ShownId).ToList())
+				foreach (var item in GetPreviousVertexes(result, cycle.Scope.NextAfterScope.ShownId).ToList())
 				{
 					AddEdge(result, item, GetVertexName(cycle));
 				}
@@ -129,15 +127,18 @@
 			return "Конец";
 		}
 
-		private static void AddEdge(BidirectionalGraph<object, IEdge<object>> result, String vertex1, String vertex2, bool haveToCheck = true)
+		private static void AddEdge(BidirectionalGraph<object, IEdge<object>> result, String vertex1, String vertex2,
+			bool haveToCheck = true)
 		{
-			if (haveToCheck && result.Edges.FirstOrDefault(edge => edge.Source.ToString() == vertex1 && edge.Target.ToString() == vertex2) == null)
+			if (haveToCheck &&
+				result.Edges.FirstOrDefault(edge => edge.Source.ToString() == vertex1 && edge.Target.ToString() == vertex2) == null)
 			{
 				result.AddEdge(new Edge<object>(vertex1, vertex2));
 			}
 		}
 
-		private static void AddEdge(BidirectionalGraph<object, IEdge<object>> result, IValuable vertex1, IValuable vertex2, bool haveToCheck = true)
+		private static void AddEdge(BidirectionalGraph<object, IEdge<object>> result, IValuable vertex1, IValuable vertex2,
+			bool haveToCheck = true)
 		{
 			AddEdge(result, GetVertexName(vertex1), GetVertexName(vertex2), haveToCheck);
 		}
@@ -146,12 +147,13 @@
 		{
 			try
 			{
-				result.RemoveEdge(result.Edges.FirstOrDefault(edge => edge.Source.ToString() == vertex1 && edge.Target.ToString() == vertex2));
+				result.RemoveEdge(
+					result.Edges.FirstOrDefault(edge => edge.Source.ToString() == vertex1 && edge.Target.ToString() == vertex2));
 			}
 			catch
 			{
+				// ignored
 			}
-			
 		}
 
 		private static void RemoveEdge(BidirectionalGraph<object, IEdge<object>> result, IValuable vertex1, IValuable vertex2)

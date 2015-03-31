@@ -1,8 +1,7 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.ControlGraphItems
 {
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
-	using System.Linq;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 
 	internal class CommonCgi : ControlGraphItem, IValuable
 	{

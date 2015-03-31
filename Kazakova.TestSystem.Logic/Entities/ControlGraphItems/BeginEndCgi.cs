@@ -1,8 +1,6 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.ControlGraphItems
 {
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
-	using System.Linq;
 
 	internal class BeginEndCgi : CommonCgi
 	{

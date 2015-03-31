@@ -2,16 +2,16 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using Criteria;
-	using Entities;
-	using Enums;
+	using Kazakova.TestSystem.Logic.Criteria;
+	using Kazakova.TestSystem.Logic.Entities;
+	using Kazakova.TestSystem.Logic.Enums;
+	using Kazakova.TestSystem.Logic.Services;
 	using QuickGraph;
-	using Services;
 
 	public class Tester
 	{
-		internal Dictionary<Criteries, BaseCriteria> criteries = new Dictionary<Criteries, BaseCriteria>();
 		private readonly ControlGraph controlGraph;
+		internal Dictionary<Criteries, BaseCriteria> criteries = new Dictionary<Criteries, BaseCriteria>();
 
 		public Tester(string data)
 		{

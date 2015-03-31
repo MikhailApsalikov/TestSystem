@@ -1,22 +1,22 @@
 ﻿namespace Kazakova.TestSystem.Logic.Services
 {
-	using Kazakova.TestSystem.Logic.Entities;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Kazakova.TestSystem.Logic.Entities;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 
 	internal static class Parser
 	{
 		public static List<ControlGraphItem> Parse(ControlGraph graph, String source, int maxFileSize = 100)
 		{
 			var result = new List<ControlGraphItem>();
-			string[] splittedContent = source.Split('\r');
+			var splittedContent = source.Split('\r');
 			var begin = new BeginEndCgi(graph, "", 0);
 			begin.SetShownId("Начало");
 			result.Add(begin);
-			for (int i = 0; i < splittedContent.Length; i++)
+			for (var i = 0; i < splittedContent.Length; i++)
 			{
 				splittedContent[i] = splittedContent[i].Replace("\n", "").Trim();
 				result.Add(ParseItem(graph, splittedContent[i], i + 1));
@@ -26,7 +26,8 @@
 			result.Add(end);
 			if (result.Count > maxFileSize + 2)
 			{
-				throw new ArgumentOutOfRangeException(String.Format("Файл содержит больше {0} строк и не может быть обработан", maxFileSize));
+				throw new ArgumentOutOfRangeException(String.Format("Файл содержит больше {0} строк и не может быть обработан",
+					maxFileSize));
 			}
 
 			SetShownIds(result);
@@ -90,7 +91,7 @@
 
 		private static void SetShownIds(List<ControlGraphItem> graph)
 		{
-			int iterator = 1;
+			var iterator = 1;
 			foreach (var item in graph.OfType<IValuable>())
 			{
 				if (!(item is BeginEndCgi))
@@ -98,7 +99,6 @@
 					item.SetShownId(iterator);
 					iterator++;
 				}
-				
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.ControlGraphItems
 {
 	using System;
-	using System.Linq;
 
 	internal class ElseCgi : ControlGraphItem
 	{

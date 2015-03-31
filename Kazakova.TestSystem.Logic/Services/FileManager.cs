@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.IO;
-	using System.Linq;
 
 	public static class FileManager
 	{

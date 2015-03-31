@@ -1,42 +1,29 @@
 ﻿namespace Kazakova.TestSystem.Logic.Enums
 {
-	using System;
 	using System.ComponentModel;
-	using System.Linq;
 
 	internal enum ControlGraphItemType
 	{
-		[Description("Обычная строка")]
-		Common,
+		[Description("Обычная строка")] Common,
 
-		[Description("Условие IF")]
-		If,
+		[Description("Условие IF")] If,
 
-		[Description("Ветка ELSE условия IF")]
-		Else,
+		[Description("Ветка ELSE условия IF")] Else,
 
-		[Description("Условие Switch")]
-		Switch,
+		[Description("Условие Switch")] Switch,
 
-		[Description("Ветка условия Switch")]
-		Case,
+		[Description("Ветка условия Switch")] Case,
 
-		[Description("Default ветка условия Switch")]
-		Default,
+		[Description("Default ветка условия Switch")] Default,
 
-		[Description("Цикл FOR")]
-		For,
+		[Description("Цикл FOR")] For,
 
-		[Description("Цикл WHILE")]
-		While,
+		[Description("Цикл WHILE")] While,
 
-		[Description("Строка, не содержащая управляющих конструкций")]
-		Useless,
+		[Description("Строка, не содержащая управляющих конструкций")] Useless,
 
-		[Description("Левая фигурная скобка")]
-		LeftBrace,
+		[Description("Левая фигурная скобка")] LeftBrace,
 
-		[Description("Правая фигурная скобка")]
-		RightBrace,
+		[Description("Правая фигурная скобка")] RightBrace
 	}
 }

@@ -1,52 +1,45 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities
 {
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
 	using System.Linq;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 
 	internal class Scope
 	{
-		private ControlGraph graph;
-		private IScopeOwner owner;
+		private readonly ControlGraph graph;
+		private readonly IScopeOwner owner;
 
 		public Scope(ControlGraph graph, IScopeOwner owner)
 		{
-			this.IsAlternative = false;
+			IsAlternative = false;
 			this.graph = graph;
 			this.owner = owner;
-			this.Begin = GetScopeBegin(((ControlGraphItem)owner).Id);
-			this.End = GetScopeEnd(this.Begin);
-			this.HasValuableItems = CalculateValuableItems();
-			this.DetectAnyConditions();
-			this.DetectParentScope();
+			Begin = GetScopeBegin(((ControlGraphItem) owner).Id);
+			End = GetScopeEnd(Begin);
+			HasValuableItems = CalculateValuableItems();
+			DetectAnyConditions();
+			DetectParentScope();
 		}
 
 		public Scope(ControlGraph graph, IScopeOwner owner, int index)
 		{
-			this.IsAlternative = true;
+			IsAlternative = true;
 			this.graph = graph;
 			this.owner = owner;
-			this.Begin = GetScopeBegin(index);
-			this.End = GetScopeEnd(this.Begin);
-			this.HasValuableItems = CalculateValuableItems();
-			this.DetectAnyConditions();
-			this.DetectParentScope();
+			Begin = GetScopeBegin(index);
+			End = GetScopeEnd(Begin);
+			HasValuableItems = CalculateValuableItems();
+			DetectAnyConditions();
+			DetectParentScope();
 		}
 
-
 		public int Begin { get; private set; }
-
 		public int End { get; private set; }
-
 		public bool HasValuableItems { get; private set; }
-
 		public IScopeOwner ParentScopeOwner { get; private set; }
-
 		public bool IsAlternative { get; set; }
-
 		public Scope ParentScope { get; private set; }
-
 		public bool HasNestedConditions { get; private set; }
 
 		public IValuable NextAfterScope
@@ -55,14 +48,20 @@
 			{
 				if (ParentScope == null || graph.Where(item => item.Id > End && item.Id < ParentScope.End).OfType<IValuable>().Any())
 				{
-					return graph.Where(item => item.Id > End).OfType<IValuable>().OrderBy(x => ((ControlGraphItem)x).Id).ToList().FirstOrDefault();
+					return
+						graph.Where(item => item.Id > End)
+							.OfType<IValuable>()
+							.OrderBy(x => ((ControlGraphItem) x).Id)
+							.ToList()
+							.FirstOrDefault();
 				}
 
-				if (ParentScopeOwner is IfCgi)
+				IfCgi cgi = ParentScopeOwner as IfCgi;
+				if (cgi != null)
 				{
-					if (!ParentScope.IsAlternative && ParentScopeOwner is IScopeAlternativeOwner)
+					if (!ParentScope.IsAlternative)
 					{
-						return (ParentScopeOwner as IScopeAlternativeOwner).ScopeAlternative.NextAfterScope;
+						return cgi.ScopeAlternative.NextAfterScope;
 					}
 				}
 
@@ -79,7 +78,12 @@
 		{
 			get
 			{
-				return graph.Where(item => item.Id > Begin).OfType<IValuable>().OrderBy(x => ((ControlGraphItem)x).Id).ToList().FirstOrDefault();
+				return
+					graph.Where(item => item.Id > Begin)
+						.OfType<IValuable>()
+						.OrderBy(x => ((ControlGraphItem) x).Id)
+						.ToList()
+						.FirstOrDefault();
 			}
 		}
 
@@ -87,7 +91,12 @@
 		{
 			get
 			{
-				return graph.Where(item => item.Id < End).OfType<IValuable>().OrderByDescending(x => ((ControlGraphItem)x).Id).ToList().FirstOrDefault();
+				return
+					graph.Where(item => item.Id < End)
+						.OfType<IValuable>()
+						.OrderByDescending(x => ((ControlGraphItem) x).Id)
+						.ToList()
+						.FirstOrDefault();
 			}
 		}
 
@@ -98,7 +107,7 @@
 
 		private bool CalculateValuableItems()
 		{
-			for (int i = Begin; i < End; i++)
+			for (var i = Begin; i < End; i++)
 			{
 				if (graph[i] is IValuable)
 				{
@@ -116,7 +125,8 @@
 				index++;
 				if (index >= graph.Count)
 				{
-					throw new ArgumentOutOfRangeException("Программа содержит неверное количество фигурных скобок. Возможно одна из них не находится на отдельной строке. Внимание: Каждая фигурная скобка должна находиться на отдельной строке!");
+					throw new ArgumentOutOfRangeException(
+						"Программа содержит неверное количество фигурных скобок. Возможно одна из них не находится на отдельной строке. Внимание: Каждая фигурная скобка должна находиться на отдельной строке!");
 				}
 			} while (graph[index] is LeftBraceCgi);
 
@@ -125,8 +135,8 @@
 
 		private int GetScopeEnd(int from)
 		{
-			int scopes = 1;
-			int currentPosition = from;
+			var scopes = 1;
+			var currentPosition = from;
 			while (scopes != 0)
 			{
 				currentPosition++;
@@ -146,25 +156,25 @@
 
 		private void DetectAnyConditions()
 		{
-			this.HasNestedConditions = graph.Where(item => item.Id > Begin && item.Id < End).OfType<ICondition>().Any();
+			HasNestedConditions = graph.Where(item => item.Id > Begin && item.Id < End).OfType<ICondition>().Any();
 		}
 
 		private void DetectParentScope()
 		{
-			for (int i = ((ControlGraphItem)owner).Id - 1; i > 0; i--)
+			for (var i = ((ControlGraphItem) owner).Id - 1; i > 0; i--)
 			{
 				if (graph[i] is IScopeOwner)
 				{
-					if (((IScopeOwner)graph[i]).Scope.IsIncluded(Begin))
+					if (((IScopeOwner) graph[i]).Scope.IsIncluded(Begin))
 					{
-						this.ParentScopeOwner = graph[i] as IScopeOwner;
-						this.ParentScope = this.ParentScopeOwner.Scope;
+						ParentScopeOwner = graph[i] as IScopeOwner;
+						ParentScope = ParentScopeOwner.Scope;
 						return;
 					}
 
 					if (graph[i] is IScopeAlternativeOwner)
 					{
-						var scopeAlternative = ((IScopeAlternativeOwner)graph[i]).ScopeAlternative;
+						var scopeAlternative = ((IScopeAlternativeOwner) graph[i]).ScopeAlternative;
 						if (scopeAlternative == null)
 						{
 							return;
@@ -172,15 +182,15 @@
 
 						if (scopeAlternative.IsIncluded(Begin))
 						{
-							this.ParentScopeOwner = graph[i] as IScopeOwner;
-							this.ParentScope = (this.ParentScopeOwner as IScopeAlternativeOwner).ScopeAlternative;
+							ParentScopeOwner = graph[i] as IScopeOwner;
+							ParentScope = (ParentScopeOwner as IScopeAlternativeOwner).ScopeAlternative;
 							return;
 						}
 					}
 				}
 			}
 
-			this.ParentScope = null;
+			ParentScope = null;
 		}
 	}
 }

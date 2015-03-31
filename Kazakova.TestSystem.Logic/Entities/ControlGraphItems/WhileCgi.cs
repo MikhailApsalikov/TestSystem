@@ -1,8 +1,7 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.ControlGraphItems
 {
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
-	using System.Linq;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 
 	internal class WhileCgi : ControlGraphItem, IScopeOwner, IValuable, ICycle
 	{
@@ -13,16 +12,16 @@
 
 		public Scope Scope { get; set; }
 
+		public void InitializeScopes()
+		{
+			Scope = new Scope(graph, this);
+		}
+
 		public string ShownId { get; private set; }
 
 		public void SetShownId(int shownId)
 		{
 			ShownId = shownId.ToString("D2");
-		}
-
-		public void InitializeScopes()
-		{
-			this.Scope = new Scope(graph, this);
 		}
 	}
 }

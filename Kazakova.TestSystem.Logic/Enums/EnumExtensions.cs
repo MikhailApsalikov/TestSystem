@@ -1,6 +1,5 @@
 ﻿namespace System
 {
-	using System;
 	using System.ComponentModel;
 
 	public static class EnumExtensions
@@ -9,8 +8,8 @@
 		{
 			var s = e.ToString();
 			var fi = e.GetType().GetField(s);
-			var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
-				typeof(DescriptionAttribute), false);
+			var attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(
+				typeof (DescriptionAttribute), false);
 			if (attributes.Length > 0)
 			{
 				s = attributes[0].Description;

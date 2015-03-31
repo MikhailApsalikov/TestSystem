@@ -1,21 +1,21 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities
 {
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 
 	internal class GraphPath
 	{
-		private ControlGraph graph;
-
-		public List<IValuable> Items { get; set; }
+		private readonly ControlGraph graph;
 
 		public GraphPath(ControlGraph graph)
 		{
 			this.graph = graph;
 			Items = new List<IValuable>();
 		}
+
+		public List<IValuable> Items { get; set; }
 
 		public IValuable this[int index]
 		{
@@ -29,14 +29,11 @@
 
 		public GraphPath Clone()
 		{
-			List<IValuable> newItems = new List<IValuable>(Items.Count);
-			foreach (var item in Items)
-			{
-				newItems.Add(item);
-			}
+			var newItems = new List<IValuable>(Items.Count);
+			newItems.AddRange(Items);
 			return new GraphPath(graph)
 			{
-				Items = newItems,
+				Items = newItems
 			};
 		}
 

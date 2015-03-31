@@ -4,21 +4,21 @@
 
 	internal abstract class ControlGraphItem
 	{
-		protected ControlGraph graph;
 		protected string content;
+		protected ControlGraph graph;
 
-		public ControlGraphItem(ControlGraph graph, String content, int id)
+		protected ControlGraphItem(ControlGraph graph, String content, int id)
 		{
 			this.graph = graph;
 			this.content = content;
-			this.Id = id;
+			Id = id;
 		}
 
 		public int Id { get; private set; }
 
 		public override string ToString()
 		{
-			return this.content;
+			return content;
 		}
 	}
 }

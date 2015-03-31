@@ -1,8 +1,7 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.ControlGraphItems
 {
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 	using System;
-	using System.Linq;
+	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 
 	internal class DefaultCgi : ControlGraphItem, IScopeOwner
 	{
@@ -15,7 +14,7 @@
 
 		public void InitializeScopes()
 		{
-			this.Scope = new Scope(graph, this);
+			Scope = new Scope(graph, this);
 		}
 	}
 }
