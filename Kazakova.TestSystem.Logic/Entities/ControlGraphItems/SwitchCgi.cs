@@ -9,17 +9,12 @@
 	internal class SwitchCgi : Condition, IValuable, IScopeOwner
 	{
 		public SwitchCgi(ControlGraph graph, String content, int id)
-			: base(graph, content, id)
+			: base(graph, content, id, @"switch *\((.*)\) *")
 		{
 		}
 
 		public List<IScopeOwner> Cases { get; private set; }
 		public IScopeOwner Default { get; private set; }
-
-		protected string ParsedCondition
-		{
-			get { return Regex.Match(content, @"switch *\((.*)\) *").Groups[1].Value; }
-		}
 
 		public override int ValuableBranches
 		{
@@ -73,13 +68,6 @@
 		public void InitializeScopes()
 		{
 			Scope = new Scope(graph, this);
-		}
-
-		public string ShownId { get; private set; }
-
-		public void SetShownId(int shownId)
-		{
-			ShownId = shownId.ToString("D2");
 		}
 
 		private List<IScopeOwner> GetCasesForSwitch(out IScopeOwner defaultItem)

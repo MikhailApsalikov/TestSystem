@@ -5,10 +5,10 @@
 	using System.Text.RegularExpressions;
 	using Interfaces;
 
-	internal class IfCgi : Condition, IScopeOwner, IScopeAlternativeOwner, IValuable
+	internal class IfCgi : Condition, IScopeOwner, IScopeAlternativeOwner
 	{
 		public IfCgi(ControlGraph graph, String content, int id)
-			: base(graph, content, id)
+			: base(graph, content, id, @"if *\((.*)\) *")
 		{
 		}
 
@@ -52,11 +52,6 @@
 			get { return ValuableBranches != 2; }
 		}
 
-		protected string ParsedCondition
-		{
-			get { return Regex.Match(content, @"if *\((.*)\) *").Groups[1].Value; }
-		}
-
 		public Scope ScopeAlternative { get; set; }
 		public Scope Scope { get; set; }
 
@@ -78,13 +73,6 @@
 					return;
 				}
 			}
-		}
-
-		public string ShownId { get; private set; }
-
-		public void SetShownId(int shownId)
-		{
-			ShownId = shownId.ToString("D2");
 		}
 	}
 }

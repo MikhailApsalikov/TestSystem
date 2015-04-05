@@ -4,9 +4,9 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
-	using Kazakova.TestSystem.Logic.Services;
+	using ControlGraphItems;
+	using ControlGraphItems.Interfaces;
+	using Services;
 
 	internal class ControlGraph : IEnumerable<ControlGraphItem>, IEnumerator<ControlGraphItem>
 	{
