@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Linq;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using System.Text.RegularExpressions;
+	using Interfaces;
 
 	internal class IfCgi : ControlGraphItem, IScopeOwner, IScopeAlternativeOwner, IValuable, ICondition
 	{
@@ -49,6 +50,11 @@
 		public bool HasEmptyWay
 		{
 			get { return ValuableBranches != 2; }
+		}
+
+		public string ParsedCondition
+		{
+			get { return Regex.Match(content, @"if *\((.*)\) *").Groups[1].Value; }
 		}
 
 		public Scope ScopeAlternative { get; set; }

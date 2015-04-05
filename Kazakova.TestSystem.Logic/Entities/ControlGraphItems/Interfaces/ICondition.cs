@@ -4,5 +4,6 @@
 	{
 		int ValuableBranches { get; }
 		bool HasEmptyWay { get; }
+		string ParsedCondition { get; }
 	}
 }

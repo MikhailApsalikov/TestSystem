@@ -3,9 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Kazakova.TestSystem.Logic.Entities;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using Entities;
+	using Entities.ControlGraphItems;
+	using Entities.ControlGraphItems.Interfaces;
 
 	internal static class Parser
 	{

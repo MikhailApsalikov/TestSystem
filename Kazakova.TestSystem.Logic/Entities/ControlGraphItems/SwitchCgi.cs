@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Text.RegularExpressions;
 	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
 
 	internal class SwitchCgi : ControlGraphItem, IValuable, IScopeOwner, ICondition
@@ -60,6 +61,11 @@
 
 				return Cases.Any(item => !item.Scope.HasValuableItems);
 			}
+		}
+
+		public string ParsedCondition
+		{
+			get { return Regex.Match(content, @"switch *\((.*)\) *").Groups[1].Value; }
 		}
 
 		public Scope Scope { get; set; }

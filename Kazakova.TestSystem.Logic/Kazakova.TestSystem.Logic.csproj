@@ -106,6 +106,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\C# Expression Evaluator\ExpressionEvaluator.csproj">
+      <Project>{ee3ac276-2314-4d7f-9c6a-b89ca1d650c5}</Project>
+      <Name>ExpressionEvaluator</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
