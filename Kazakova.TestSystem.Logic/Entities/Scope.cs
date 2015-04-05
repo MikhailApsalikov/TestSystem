@@ -156,7 +156,7 @@
 
 		private void DetectAnyConditions()
 		{
-			HasNestedConditions = graph.Where(item => item.Id > Begin && item.Id < End).OfType<ICondition>().Any();
+			HasNestedConditions = graph.Where(item => item.Id > Begin && item.Id < End).OfType<Condition>().Any();
 		}
 
 		private void DetectParentScope()

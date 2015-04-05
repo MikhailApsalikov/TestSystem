@@ -78,7 +78,7 @@
 
 		public int GetMaxValuableBranches(bool checkEmpty)
 		{
-			var conditions = items.OfType<ICondition>();
+			var conditions = items.OfType<Condition>();
 			if (!conditions.Any())
 			{
 				return 1;

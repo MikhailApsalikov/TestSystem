@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kazakova.TestSystem.Logic",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kazakova.TestSystem.UI.Desktop", "Kazakova.TestSystem.UI.Desktop\Kazakova.TestSystem.UI.Desktop.csproj", "{BCF1EDE6-5849-402D-858F-A390C50F2C8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluator", "C# Expression Evaluator\ExpressionEvaluator.csproj", "{EE3AC276-2314-4D7F-9C6A-B89CA1D650C5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,12 +26,6 @@ Global
 		{BCF1EDE6-5849-402D-858F-A390C50F2C8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BCF1EDE6-5849-402D-858F-A390C50F2C8F}.TYPE_SAFE|Any CPU.ActiveCfg = Release|Any CPU
 		{BCF1EDE6-5849-402D-858F-A390C50F2C8F}.TYPE_SAFE|Any CPU.Build.0 = Release|Any CPU
-		{EE3AC276-2314-4D7F-9C6A-B89CA1D650C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE3AC276-2314-4D7F-9C6A-B89CA1D650C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE3AC276-2314-4D7F-9C6A-B89CA1D650C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE3AC276-2314-4D7F-9C6A-B89CA1D650C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE3AC276-2314-4D7F-9C6A-B89CA1D650C5}.TYPE_SAFE|Any CPU.ActiveCfg = TYPE_SAFE|Any CPU
-		{EE3AC276-2314-4D7F-9C6A-B89CA1D650C5}.TYPE_SAFE|Any CPU.Build.0 = TYPE_SAFE|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

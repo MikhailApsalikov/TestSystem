@@ -4,9 +4,9 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text.RegularExpressions;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using Interfaces;
 
-	internal class SwitchCgi : ControlGraphItem, IValuable, IScopeOwner, ICondition
+	internal class SwitchCgi : Condition, IValuable, IScopeOwner
 	{
 		public SwitchCgi(ControlGraph graph, String content, int id)
 			: base(graph, content, id)
@@ -16,7 +16,12 @@
 		public List<IScopeOwner> Cases { get; private set; }
 		public IScopeOwner Default { get; private set; }
 
-		public int ValuableBranches
+		protected string ParsedCondition
+		{
+			get { return Regex.Match(content, @"switch *\((.*)\) *").Groups[1].Value; }
+		}
+
+		public override int ValuableBranches
 		{
 			get
 			{
@@ -28,7 +33,7 @@
 					{
 						tempBranches =
 							graph.Where(condition => condition.Id > caseitem.Scope.Begin && condition.Id < caseitem.Scope.End)
-								.OfType<ICondition>()
+								.OfType<Condition>()
 								.Aggregate(tempBranches, (current, nestedCondition) => current*nestedCondition.ValuableBranches);
 					}
 					result += tempBranches;
@@ -41,7 +46,7 @@
 					{
 						tempBranches =
 							graph.Where(condition => condition.Id > Default.Scope.Begin && condition.Id < Default.Scope.End)
-								.OfType<ICondition>()
+								.OfType<Condition>()
 								.Aggregate(tempBranches, (current, nestedCondition) => current*nestedCondition.ValuableBranches);
 					}
 					result += tempBranches;
@@ -50,7 +55,7 @@
 			}
 		}
 
-		public bool HasEmptyWay
+		public override bool HasEmptyWay
 		{
 			get
 			{
@@ -61,11 +66,6 @@
 
 				return Cases.Any(item => !item.Scope.HasValuableItems);
 			}
-		}
-
-		public string ParsedCondition
-		{
-			get { return Regex.Match(content, @"switch *\((.*)\) *").Groups[1].Value; }
 		}
 
 		public Scope Scope { get; set; }

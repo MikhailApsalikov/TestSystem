@@ -5,14 +5,14 @@
 	using System.Text.RegularExpressions;
 	using Interfaces;
 
-	internal class IfCgi : ControlGraphItem, IScopeOwner, IScopeAlternativeOwner, IValuable, ICondition
+	internal class IfCgi : Condition, IScopeOwner, IScopeAlternativeOwner, IValuable
 	{
 		public IfCgi(ControlGraph graph, String content, int id)
 			: base(graph, content, id)
 		{
 		}
 
-		public int ValuableBranches
+		public override int ValuableBranches
 		{
 			get
 			{
@@ -24,7 +24,7 @@
 					{
 						branches =
 							graph.Where(condition => condition.Id > Scope.Begin && condition.Id < Scope.End)
-								.OfType<ICondition>()
+								.OfType<Condition>()
 								.Aggregate(branches, (current, nestedCondition) => current*nestedCondition.ValuableBranches);
 					}
 				}
@@ -36,7 +36,7 @@
 					{
 						tempBranches =
 							graph.Where(condition => condition.Id > ScopeAlternative.Begin && condition.Id < ScopeAlternative.End)
-								.OfType<ICondition>()
+								.OfType<Condition>()
 								.Aggregate(tempBranches, (current, nestedCondition) => current*nestedCondition.ValuableBranches);
 					}
 
@@ -47,12 +47,12 @@
 			}
 		}
 
-		public bool HasEmptyWay
+		public override bool HasEmptyWay
 		{
 			get { return ValuableBranches != 2; }
 		}
 
-		public string ParsedCondition
+		protected string ParsedCondition
 		{
 			get { return Regex.Match(content, @"if *\((.*)\) *").Groups[1].Value; }
 		}
