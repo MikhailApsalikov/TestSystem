@@ -33,7 +33,7 @@
 			expression = compiledExpression.Expression as BinaryExpression;
 			if (expression == null)
 			{
-				throw new ArgumentException(String.Format("Условие в строке {0} не возвращает Boolean", ShownId));
+				throw new ArgumentException("Условие не возвращает Boolean");
 			}
 		}
 	}
