@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kazakova.TestSystem.Logic", "Kazakova.TestSystem.Logic\Kazakova.TestSystem.Logic.csproj", "{690DE8EB-8C3B-4F0D-932A-943BF3120311}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kazakova.TestSystem.UI.Desktop", "Kazakova.TestSystem.UI.Desktop\Kazakova.TestSystem.UI.Desktop.csproj", "{BCF1EDE6-5849-402D-858F-A390C50F2C8F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB64E144-6234-4E5D-B2E7-23435441821D}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
