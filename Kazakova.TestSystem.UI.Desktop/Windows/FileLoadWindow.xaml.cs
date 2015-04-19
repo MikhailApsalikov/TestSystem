@@ -135,8 +135,7 @@ namespace Kazakova.TestSystem.UI.Desktop.Windows
 
 		private void SolutionsCover_Click(object sender, RoutedEventArgs e)
 		{
-			//(new CriteriaWindow(Criteries.SolutionsCover, logic)).Show();
-            (new CriteriaWindow(Criteries.ConditionsCover, logic)).Show();
+			(new CriteriaWindow(Criteries.SolutionsCover, logic)).Show();
 		}
 
 		private void ConditionsCover_Click(object sender, RoutedEventArgs e)

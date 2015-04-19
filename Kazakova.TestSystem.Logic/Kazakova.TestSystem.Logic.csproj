@@ -98,6 +98,7 @@
     <Compile Include="Entities\ControlGraphItems\Interfaces\IValuable.cs" />
     <Compile Include="Entities\ControlGraphItems\CaseCgi.cs" />
     <Compile Include="Entities\ControlGraphItems\SwitchCgi.cs" />
+    <Compile Include="Entities\Range.cs" />
     <Compile Include="Entities\Scope.cs" />
     <Compile Include="Entities\GraphPath.cs" />
     <Compile Include="Enums\ControlGraphItemType.cs" />

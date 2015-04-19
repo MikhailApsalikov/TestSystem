@@ -1,21 +1,18 @@
-﻿using Kazakova.TestSystem.Logic;
-using Kazakova.TestSystem.Logic.Entities;
-using Kazakova.TestSystem.Logic.Enums;
-using Kazakova.TestSystem.UI.Desktop.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-
-namespace Kazakova.TestSystem.UI.Desktop.Windows
+﻿namespace Kazakova.TestSystem.UI.Desktop.Windows
 {
+	using System.Windows;
+	using System.Windows.Controls;
+	using Content;
+	using Logic;
+	using Logic.Enums;
+
 	/// <summary>
-	/// Interaction logic for Criterion.xaml
+	///     Interaction logic for Criterion.xaml
 	/// </summary>
 	public partial class CriteriaWindow : Window
 	{
-		Criteries criteria;
-		Tester tester;
+		private readonly Criteries criteria;
+		private readonly Tester tester;
 
 		public CriteriaWindow(Criteries criteria, Tester tester)
 		{
@@ -24,50 +21,49 @@ namespace Kazakova.TestSystem.UI.Desktop.Windows
 			this.tester = tester;
 			var pathesCount = tester.GetPathCountForCriteria(criteria);
 
-			this.InitializeFields();
-			this.ShowPathesInList(pathesCount);
-			this.graphLayout.Graph = tester.GetBidirectionGraphForWholeGraph();
+			InitializeFields();
+			ShowPathesInList(pathesCount);
+			graphLayout.Graph = tester.GetBidirectionGraphForWholeGraph();
 		}
 
 		private void InitializeFields()
 		{
-			this.Title = StringResources.ProgramName;
-			this.CodeContent.Text = tester.ToString();
+			Title = StringResources.ProgramName;
+			CodeContent.Text = tester.ToString();
 			switch (criteria)
 			{
 				case Criteries.OperatorsCover:
-					this.Header.Content = StringResources.OperatorsCoverCriteria;
+					Header.Content = StringResources.OperatorsCoverCriteria;
 					break;
 				case Criteries.SolutionsCover:
-					this.Header.Content = StringResources.SolutionsCoverCriteria;
+					Header.Content = StringResources.SolutionsCoverCriteria;
 					break;
 				case Criteries.ConditionsCover:
-                    this.Header.Content = StringResources.SolutionsCoverCriteria;
+					Header.Content = StringResources.SolutionsCoverCriteria;
 					break;
 				case Criteries.SolutionsAndConditionsCover:
-					this.Header.Content = StringResources.SolutionsAndConditionsCoverCriteria;
-					break;
-				default:
+					Header.Content = StringResources.SolutionsAndConditionsCoverCriteria;
 					break;
 			}
 		}
 
 		private void ShowPathesInList(int pathes)
 		{
-			for (int i = 0; i < pathes; i++)
+			for (var i = 0; i < pathes; i++)
 			{
-				this.PathListBox.Items.Add("Путь #" + (i + 1).ToString());
+				PathListBox.Items.Add("Путь #" + (i + 1));
 			}
 		}
 
-		private void PathListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+		private void PathListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (this.PathListBox.SelectedIndex == -1)
+			if (PathListBox.SelectedIndex == -1)
 			{
 				return;
 			}
 
-			this.pathLayout.Graph = tester.GetBidirectionGraphForPath(criteria, this.PathListBox.SelectedIndex);
+			pathLayout.Graph = tester.GetBidirectionGraphForPath(criteria, PathListBox.SelectedIndex);
+			Path.Content = "Входными данными для этого пути являются: ";
 		}
 	}
 }
