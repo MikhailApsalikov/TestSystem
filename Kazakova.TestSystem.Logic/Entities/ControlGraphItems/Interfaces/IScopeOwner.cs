@@ -4,5 +4,6 @@
 	{
 		Scope Scope { get; set; }
 		void InitializeScopes();
+		void InitializeRange();
 	}
 }
