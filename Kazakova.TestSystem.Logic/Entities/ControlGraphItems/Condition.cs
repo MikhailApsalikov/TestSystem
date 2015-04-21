@@ -3,12 +3,11 @@
 	using System;
 	using System.Linq.Expressions;
 	using System.Text.RegularExpressions;
-	using ExpressionEvaluator;
 	using Interfaces;
 
 	internal abstract class Condition : ControlGraphItem, IValuable
 	{
-		private DynamicExpression expression;
+		public ParsedCondition Expression { get; private set; }
 
 		internal Condition(ControlGraph graph, String content, int id, string conditionRegex)
 			: base(graph, content, id)
@@ -28,13 +27,7 @@
 		private void InitializeExpression(string conditionRegex)
 		{
 			var condition = Regex.Match(content, conditionRegex).Groups[1].Value;
-			var compiledExpression = new CompiledExpression<bool>(condition);
-			compiledExpression.ScopeParse();
-			expression = compiledExpression.Expression as DynamicExpression;
-			if (expression == null)
-			{
-				throw new NotSupportedException("Поддерживаются только простые условия");
-			}
+			Expression = new ParsedCondition(condition);
 		}
 	}
 }

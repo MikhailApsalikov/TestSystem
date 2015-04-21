@@ -16,5 +16,10 @@
 		{
 			Scope = new Scope(graph, this);
 		}
+
+		public void InitializeRanges()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -2,16 +2,16 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using Kazakova.TestSystem.Logic.Criteria;
-	using Kazakova.TestSystem.Logic.Entities;
-	using Kazakova.TestSystem.Logic.Enums;
-	using Kazakova.TestSystem.Logic.Services;
+	using Criteria;
+	using Entities;
+	using Enums;
 	using QuickGraph;
+	using Services;
 
 	public class Tester
 	{
-		private readonly ControlGraph controlGraph;
 		internal Dictionary<Criteries, BaseCriteria> criteries = new Dictionary<Criteries, BaseCriteria>();
+		private readonly ControlGraph controlGraph;
 
 		public Tester(string data)
 		{
@@ -33,6 +33,12 @@
 		{
 			CheckPathCache(criteria);
 			return GetPathForDrawing(criteries[criteria].GetPathes()[pathId]);
+		}
+
+		public string GetRequiredParametersForPathAsString(Criteries criteria, int pathId)
+		{
+			CheckPathCache(criteria);
+			return criteries[criteria].GetPathes()[pathId].GetRequiredParametersAsString();
 		}
 
 		private void CheckPathCache(Criteries criteria)

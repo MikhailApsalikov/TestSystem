@@ -3,9 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Kazakova.TestSystem.Logic.Entities;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using Entities;
+	using Entities.ControlGraphItems;
+	using Entities.ControlGraphItems.Interfaces;
 	using QuickGraph;
 
 	internal static class ControlGraphCompiler
@@ -35,13 +35,7 @@
 		public static IBidirectionalGraph<object, IEdge<object>> CompileBidirectionalGraph(GraphPath graphPath)
 		{
 			var result = new BidirectionalGraph<object, IEdge<object>>();
-			var vertexes = new List<IValuable>();
-			for (var i = 0; i < graphPath.Items.Count; i++)
-			{
-				vertexes.Add(graphPath.Items[i]);
-			}
-			var minVertex = vertexes.First();
-			var maxVertex = vertexes.Last();
+			var vertexes = graphPath.Items.ToList();
 			foreach (var item in vertexes)
 			{
 				result.AddVertex(item.ShownId);
@@ -131,7 +125,8 @@
 			bool haveToCheck = true)
 		{
 			if (haveToCheck &&
-				result.Edges.FirstOrDefault(edge => edge.Source.ToString() == vertex1 && edge.Target.ToString() == vertex2) == null)
+			    result.Edges.FirstOrDefault(edge => edge.Source.ToString() == vertex1 && edge.Target.ToString() == vertex2) ==
+			    null)
 			{
 				result.AddEdge(new Edge<object>(vertex1, vertex2));
 			}

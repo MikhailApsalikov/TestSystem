@@ -70,6 +70,11 @@
 			Scope = new Scope(graph, this);
 		}
 
+		public void InitializeRanges()
+		{
+			throw new NotImplementedException();
+		}
+
 		private List<IScopeOwner> GetCasesForSwitch(out IScopeOwner defaultItem)
 		{
 			defaultItem =

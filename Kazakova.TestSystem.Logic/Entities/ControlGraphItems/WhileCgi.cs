@@ -17,6 +17,11 @@
 			Scope = new Scope(graph, this);
 		}
 
+		public void InitializeRanges()
+		{
+			throw new NotImplementedException();
+		}
+
 		public string ShownId { get; private set; }
 
 		public void SetShownId(int shownId)

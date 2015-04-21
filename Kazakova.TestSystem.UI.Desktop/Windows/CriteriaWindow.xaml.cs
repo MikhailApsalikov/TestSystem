@@ -1,5 +1,6 @@
 ﻿namespace Kazakova.TestSystem.UI.Desktop.Windows
 {
+	using System;
 	using System.Windows;
 	using System.Windows.Controls;
 	using Content;
@@ -62,8 +63,11 @@
 				return;
 			}
 
-			pathLayout.Graph = tester.GetBidirectionGraphForPath(criteria, PathListBox.SelectedIndex);
-			Path.Content = "Входными данными для этого пути являются: ";
+			var pathIndex = PathListBox.SelectedIndex;
+
+			pathLayout.Graph = tester.GetBidirectionGraphForPath(criteria, pathIndex);
+			Path.Content = String.Format("Входными данными для этого пути являются: {0}{1}", Environment.NewLine,
+				tester.GetRequiredParametersForPathAsString(criteria, pathIndex));
 		}
 	}
 }

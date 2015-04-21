@@ -74,5 +74,14 @@
 				}
 			}
 		}
+
+		public void InitializeRanges()
+		{
+			Scope.Range = new Range(Expression);
+			if (ScopeAlternative != null)
+			{
+				ScopeAlternative.Range = new Range(Expression.Revert());
+			}
+		}
 	}
 }

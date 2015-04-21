@@ -1,7 +1,7 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.ControlGraphItems
 {
 	using System;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using Interfaces;
 
 	internal class CaseCgi : ControlGraphItem, IScopeOwner
 	{
@@ -15,6 +15,11 @@
 		public void InitializeScopes()
 		{
 			Scope = new Scope(graph, this);
+		}
+
+		public void InitializeRanges()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

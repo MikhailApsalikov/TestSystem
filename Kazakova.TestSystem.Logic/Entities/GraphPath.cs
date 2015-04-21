@@ -3,11 +3,12 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using ControlGraphItems.Interfaces;
 
 	internal class GraphPath
 	{
 		private readonly ControlGraph graph;
+		public Dictionary<string, Range> Ranges { get; set; }
 
 		public GraphPath(ControlGraph graph)
 		{
@@ -50,6 +51,16 @@
 		public bool IsSubsetOf(GraphPath path)
 		{
 			return new HashSet<IValuable>(Items).IsProperSubsetOf(new HashSet<IValuable>(path.Items));
+		}
+
+		internal string GetRequiredParametersAsString()
+		{
+			if (Ranges == null)
+			{
+				return "Нет параметров";
+			}
+
+			return String.Join("; ", Ranges.Select(pair => String.Format("{0} = {1}", pair.Key, pair.Value.OneValue.Value)).ToArray());
 		}
 	}
 }

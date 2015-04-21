@@ -2,8 +2,8 @@
 {
 	using System;
 	using System.Linq;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using ControlGraphItems;
+	using ControlGraphItems.Interfaces;
 
 	internal class Scope
 	{
@@ -41,6 +41,7 @@
 		public bool IsAlternative { get; set; }
 		public Scope ParentScope { get; private set; }
 		public bool HasNestedConditions { get; private set; }
+		public Range Range { get; set; }
 
 		public IValuable NextAfterScope
 		{
@@ -56,7 +57,7 @@
 							.FirstOrDefault();
 				}
 
-				IfCgi cgi = ParentScopeOwner as IfCgi;
+				var cgi = ParentScopeOwner as IfCgi;
 				if (cgi != null)
 				{
 					if (!ParentScope.IsAlternative)
