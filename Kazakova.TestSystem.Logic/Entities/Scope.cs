@@ -1,6 +1,7 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using ControlGraphItems;
 	using ControlGraphItems.Interfaces;
@@ -104,6 +105,22 @@
 		public bool IsIncluded(int index)
 		{
 			return index > Begin && index < End;
+		}
+
+		public List<Scope> GetParentScopes()
+		{
+			var result = new List<Scope>
+			{
+				this
+			};
+			var scope = this;
+			while (scope.ParentScope != null)
+			{
+				result.Add(scope.ParentScope);
+				scope = scope.ParentScope;
+			}
+
+			return result;
 		}
 
 		private bool CalculateValuableItems()

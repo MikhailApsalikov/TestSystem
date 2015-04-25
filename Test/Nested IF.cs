@@ -1,7 +1,7 @@
-if (a)
+if (a==2)
 {
 a(a);
-if(b)
+if(b>2)
 {
 a(a);
 a(a);

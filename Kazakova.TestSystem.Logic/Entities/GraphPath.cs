@@ -5,37 +5,62 @@
 	using System.Linq;
 	using ControlGraphItems.Interfaces;
 
-	internal class GraphPath
+	internal class GraphPath : ICloneable
 	{
+		private Dictionary<string, Range> ranges;
 		private readonly ControlGraph graph;
-		public Dictionary<string, Range> Ranges { get; set; }
 
 		public GraphPath(ControlGraph graph)
 		{
 			this.graph = graph;
 			Items = new List<IValuable>();
+			Scopes = new List<Scope>();
 		}
 
+		public List<Scope> Scopes { get; set; }
 		public List<IValuable> Items { get; set; }
+
+		public Dictionary<string, Range> Ranges
+		{
+			get
+			{
+				if (ranges == null)
+				{
+					ranges = new Dictionary<string, Range>();
+					foreach (var scope in Scopes)
+					{
+						UnionRangeDictionaries(ranges, GetRangesForScope(scope));
+					}
+				}
+
+				return ranges;
+			}
+		}
+
+		public bool IsValid
+		{
+			get { return Ranges.All(range => range.Value.OneValue != null); }
+		}
 
 		public IValuable this[int index]
 		{
 			get { return Items[index]; }
 		}
 
-		public override string ToString()
-		{
-			return String.Join(" - ", Items.Select(item => item.ShownId.ToString()));
-		}
-
-		public GraphPath Clone()
+		public object Clone()
 		{
 			var newItems = new List<IValuable>(Items.Count);
 			newItems.AddRange(Items);
 			return new GraphPath(graph)
 			{
-				Items = newItems
+				Items = newItems,
+				Scopes = Scopes.ToList()
 			};
+		}
+
+		public override string ToString()
+		{
+			return String.Join(" - ", Items.Select(item => item.ShownId.ToString()));
 		}
 
 		internal void Add(IValuable item)
@@ -46,21 +71,69 @@
 		internal void AddScope(Scope scope)
 		{
 			Items.AddRange(graph.Where(item => item.Id < scope.End && item.Id > scope.Begin).OfType<IValuable>());
+			Scopes.Add(scope);
 		}
 
-		public bool IsSubsetOf(GraphPath path)
+		internal bool IsSubsetOf(GraphPath path)
 		{
 			return new HashSet<IValuable>(Items).IsProperSubsetOf(new HashSet<IValuable>(path.Items));
 		}
 
 		internal string GetRequiredParametersAsString()
 		{
-			if (Ranges == null)
+			if (!Ranges.Any())
 			{
 				return "Нет параметров";
 			}
 
-			return String.Join("; ", Ranges.Select(pair => String.Format("{0} = {1}", pair.Key, pair.Value.OneValue.Value)).ToArray());
+			if (!IsValid)
+			{
+				return "Путь недостижим";
+			}
+
+			return String.Join("; ",
+				Ranges.Select(pair => String.Format("{0} = {1}", pair.Key, pair.Value.OneValue.Value)).ToArray());
+		}
+
+		private Dictionary<string, Range> GetRangesForScope(Scope scope)
+		{
+			var result = new Dictionary<string, Range>
+			{
+				{scope.Range.Variable, scope.Range}
+			};
+			foreach (var parentScope in scope.GetParentScopes())
+			{
+				ApplyParentRange(result, parentScope.Range);
+			}
+
+			return result;
+		}
+
+		private void UnionRangeDictionaries(Dictionary<string, Range> main, Dictionary<string, Range> secondary)
+		{
+			foreach (var range in secondary)
+			{
+				if (main.ContainsKey(range.Key))
+				{
+					main[range.Key] = main[range.Key].Intersect(range.Value.ToList());
+				}
+				else
+				{
+					main.Add(range.Key, range.Value);
+				}
+			}
+		}
+
+		private void ApplyParentRange(Dictionary<string, Range> first, Range parentRange)
+		{
+			if (first.ContainsKey(parentRange.Variable))
+			{
+				first[parentRange.Variable] = first[parentRange.Variable].Intersect(parentRange.ToList());
+			}
+			else
+			{
+				first.Add(parentRange.Variable, parentRange);
+			}
 		}
 	}
 }

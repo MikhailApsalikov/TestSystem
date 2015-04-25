@@ -6,7 +6,7 @@
 	using ControlGraphItems;
 	using Enums;
 
-	internal class Range : HashSet<double>
+	internal class Range : HashSet<double>, ICloneable
 	{
 		private const double MinValue = -100.0;
 		private const double MaxValue = 100.0;
@@ -39,7 +39,7 @@
 			}
 		}
 
-		private Range(HashSet<int> values)
+		private Range(HashSet<double> values)
 		{
 			foreach (var value in values)
 			{
@@ -59,6 +59,27 @@
 				}
 				return null;
 			}
+		}
+
+		public object Clone()
+		{
+			return new Range(this);
+		}
+
+		public new void UnionWith(IEnumerable<double> other)
+		{
+			foreach (var value in other)
+			{
+				if (!this.Any(v => Math.Abs(v - value) < Tolerance))
+				{
+					Add(value);
+				}
+			}
+		}
+
+		public Range Intersect(IEnumerable<double> other)
+		{
+			return new Range(new HashSet<double>(other.Where(v => this.Any(z => Math.Abs(z - v) < Tolerance))));
 		}
 
 		private void HandleEqual(int value)
