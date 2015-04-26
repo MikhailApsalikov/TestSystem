@@ -74,5 +74,10 @@
 
 			return GeneratePathes(path, index + 1, endIndex);
 		}
+
+		protected List<GraphPath> RemoveUnreachablePathes(List<GraphPath> pathes)
+		{
+			return pathes.Where(p => p.IsValid).ToList();
+		}
 	}
 }

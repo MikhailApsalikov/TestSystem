@@ -17,6 +17,12 @@
 		protected override List<GraphPath> GeneratePathes()
 		{
 			var pathes = base.GeneratePathes();
+			pathes = RemoveUnreachablePathes(pathes);
+			if (!Check(pathes))
+			{
+				throw new Exception("В коде есть недостижимые ветви. Критерий неприменим.");
+			}
+
 			return RemoveWaste(pathes);
 		}
 

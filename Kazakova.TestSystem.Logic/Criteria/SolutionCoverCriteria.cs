@@ -14,6 +14,12 @@
 		{
 		}
 
+		protected override List<GraphPath> GeneratePathes()
+		{
+			var pathes = base.GeneratePathes();
+			return RemoveUnreachablePathes(pathes);
+		}
+
 		protected override IEnumerable<GraphPath> HandleIf(GraphPath path, IfCgi ifCgi, int endIndex = Int32.MaxValue)
 		{
 			int nextAfterScope;
