@@ -7,9 +7,12 @@
 
 	internal class IfCgi : Condition, IScopeOwner, IScopeAlternativeOwner
 	{
+		private const string ConditionRegex = @"if *\((.*)\) *";
+
 		public IfCgi(ControlGraph graph, String content, int id)
-			: base(graph, content, id, @"if *\((.*)\) *")
+			: base(graph, content, id)
 		{
+			InitializeExpression(ConditionRegex);
 		}
 
 		public override int ValuableBranches
@@ -52,6 +55,7 @@
 			get { return ValuableBranches != 2; }
 		}
 
+		public ParsedCondition Expression { get; private set; }
 		public Scope ScopeAlternative { get; set; }
 		public Scope Scope { get; set; }
 
@@ -82,6 +86,12 @@
 			{
 				ScopeAlternative.Range = new Range(Expression.Revert());
 			}
+		}
+
+		private void InitializeExpression(string conditionRegex)
+		{
+			var condition = Regex.Match(content, conditionRegex).Groups[1].Value;
+			Expression = new ParsedCondition(condition);
 		}
 	}
 }

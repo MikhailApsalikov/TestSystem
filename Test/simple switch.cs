@@ -7,25 +7,25 @@ a(a);
 a(a);
 break;
 }
-case 1:
+case 2:
 {
 a(a);
 a(a);
 break;
 }
-case 1:
+case 3:
 {
 a(a);
 a(a);
 break;
 }
-case 1:
+case 4:
 {
 a(a);
 a(a);
 break;
 }
-case 1:
+case 5:
 {
 a(a);
 a(a);

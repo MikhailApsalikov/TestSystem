@@ -21,7 +21,7 @@
 			}
 		}
 
-		private ParsedCondition(string variable, OperationTypes operationType, int value)
+		public ParsedCondition(string variable, OperationTypes operationType, int value)
 		{
 			Variable = variable;
 			OperationType = operationType;

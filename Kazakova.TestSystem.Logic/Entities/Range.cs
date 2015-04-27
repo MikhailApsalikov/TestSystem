@@ -39,12 +39,18 @@
 			}
 		}
 
-		private Range(HashSet<double> values)
+		public Range(String variable, IEnumerable<double> values)
 		{
+			Variable = variable;
 			foreach (var value in values)
 			{
 				Add(value);
 			}
+		}
+
+		private Range(String variable)
+		{
+			Variable = variable;
 		}
 
 		public string Variable { get; private set; }
@@ -63,7 +69,18 @@
 
 		public object Clone()
 		{
-			return new Range(this);
+			return new Range(Variable, this);
+		}
+
+		public static Range CreateFullRange(String variable)
+		{
+			var result = new Range(variable);
+			for (var i = MinValue; i < MaxValue + Tolerance; i += Step)
+			{
+				result.Add(i);
+			}
+
+			return result;
 		}
 
 		public new void UnionWith(IEnumerable<double> other)
@@ -79,7 +96,12 @@
 
 		public Range Intersect(IEnumerable<double> other)
 		{
-			return new Range(new HashSet<double>(other.Where(v => this.Any(z => Math.Abs(z - v) < Tolerance))));
+			return new Range(Variable, new HashSet<double>(other.Where(v => this.Any(z => Math.Abs(z - v) < Tolerance))));
+		}
+
+		public Range Except(IEnumerable<double> other)
+		{
+			return new Range(Variable, new HashSet<double>(this.Where(v => !other.Any(z => Math.Abs(z - v) < Tolerance))));
 		}
 
 		private void HandleEqual(int value)

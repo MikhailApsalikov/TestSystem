@@ -19,7 +19,6 @@
 
 		public void InitializeRanges()
 		{
-			throw new NotImplementedException();
 		}
 	}
 }

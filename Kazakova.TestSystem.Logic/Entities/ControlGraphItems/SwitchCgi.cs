@@ -4,17 +4,27 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text.RegularExpressions;
+	using Enums;
 	using Interfaces;
 
 	internal class SwitchCgi : Condition, IValuable, IScopeOwner
 	{
+		private const string ConditionRegex = @"switch *\((.*)\) *";
+
 		public SwitchCgi(ControlGraph graph, String content, int id)
-			: base(graph, content, id, @"switch *\((.*)\) *")
+			: base(graph, content, id)
 		{
+			ParseVariable(ConditionRegex);
 		}
 
-		public List<IScopeOwner> Cases { get; private set; }
-		public IScopeOwner Default { get; private set; }
+		private void ParseVariable(string conditionRegex)
+		{
+			Variable = Regex.Match(content, conditionRegex).Groups[1].Value;
+		}
+
+		public string Variable { get; private set; }
+		public List<CaseCgi> Cases { get; private set; }
+		public DefaultCgi Default { get; private set; }
 
 		public override int ValuableBranches
 		{
@@ -72,13 +82,21 @@
 
 		public void InitializeRanges()
 		{
-			throw new NotImplementedException();
+			Scope.Range = Range.CreateFullRange(Variable);
+			List<double> caseValues = new List<double>();
+			foreach (var caseItem in Cases)
+			{
+				caseItem.Scope.Range = new Range(new ParsedCondition(Variable, OperationTypes.Equal, caseItem.Value));
+				caseValues.Add(caseItem.Value);
+			}
+
+			Default.Scope.Range = Range.CreateFullRange(Variable).Except(caseValues);
 		}
 
-		private List<IScopeOwner> GetCasesForSwitch(out IScopeOwner defaultItem)
+		private List<CaseCgi> GetCasesForSwitch(out DefaultCgi defaultItem)
 		{
 			defaultItem =
-				(IScopeOwner)
+				(DefaultCgi)
 					graph.FirstOrDefault(
 						item =>
 							((item is DefaultCgi) && item.Id > Scope.Begin && item.Id < Scope.End &&
@@ -87,12 +105,12 @@
 				graph.Where(
 					item =>
 						((item is CaseCgi) && item.Id > Scope.Begin && item.Id < Scope.End &&
-						 ((IScopeOwner) item).Scope.ParentScopeOwner == this)).OfType<IScopeOwner>().ToList();
+						 ((IScopeOwner)item).Scope.ParentScopeOwner == this)).OfType<CaseCgi>().ToList();
 		}
 
 		public void InitializeCases()
 		{
-			IScopeOwner defaultCase;
+			DefaultCgi defaultCase;
 			Cases = GetCasesForSwitch(out defaultCase);
 			Default = defaultCase;
 		}
