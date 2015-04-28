@@ -1,7 +1,7 @@
-if (a)
+if (a==0)
 {
 a(a);
-if(b)
+if(b>2)
 {
 a(a);
 a(a);
@@ -19,10 +19,10 @@ else
 a(a);
 a(a);
 }
-if (a)
+if (a>5)
 {
 a(a);
-if(b)
+if(a==2)
 {
 a(a);
 a(a);

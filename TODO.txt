@@ -1,0 +1,4 @@
+1) отсутствие else
+2) отсутствие default 
+3) nested switch
+4) циклы

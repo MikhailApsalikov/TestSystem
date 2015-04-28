@@ -6,7 +6,7 @@
 
 	internal class CaseCgi : ControlGraphItem, IScopeOwner
 	{
-		private const string ValueRegex = @"case *(\d*) *";
+		private const string ValueRegex = @"case *(-?\d*) *";
 		public CaseCgi(ControlGraph graph, String content, int id)
 			: base(graph, content, id)
 		{

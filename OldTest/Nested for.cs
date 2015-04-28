@@ -1,11 +1,11 @@
 a(a);
-while (a)
+while (a==0)
 {
 a(a);
 a(a);
 a(a);
 a(a);
-switch()
+switch(b)
 {
 case 1:
 {

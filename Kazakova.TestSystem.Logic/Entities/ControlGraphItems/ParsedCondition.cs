@@ -10,7 +10,7 @@
 		{
 			try
 			{
-				var parsed = Regex.Match(condition, @"^(.*) *(<|>|!=|==|<=|>=) *(\d*)$");
+				var parsed = Regex.Match(condition, @"^(.*) *(<|>|!=|==|<=|>=) *(-?\d*)$");
 				Variable = parsed.Groups[1].Value;
 				OperationType = ParseOperationType(parsed.Groups[2].Value);
 				Value = Int32.Parse(parsed.Groups[3].Value);

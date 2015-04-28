@@ -3,7 +3,7 @@ switch(a)
 {
 case 1:
 {
-if (a=0)
+if (a==0)
 {
 b=a-8;
 b++;
@@ -14,25 +14,25 @@ a=b+b
 }
 break;
 }
-case 1:
+case 2:
 {
 a(a);
 a(a);
 break;
 }
-case 1:
+case 3:
 {
 a(a);
 a(a);
 break;
 }
-case 1:
+case -1:
 {
 a(a);
 a(a);
 break;
 }
-case 1:
+case -2:
 {
 a(a);
 a(a);

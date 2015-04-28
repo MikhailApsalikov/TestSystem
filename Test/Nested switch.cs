@@ -1,9 +1,9 @@
-switch (1)
+switch (a)
 {
 case 1:
 {
 a(a);
-switch (2)
+switch (b)
 {
 case 4:
 {
@@ -17,7 +17,7 @@ a(a);
 }
 case 2:
 {
-switch (2)
+switch (c)
 {
 case 4:
 {

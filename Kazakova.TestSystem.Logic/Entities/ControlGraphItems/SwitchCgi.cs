@@ -89,8 +89,10 @@
 				caseItem.Scope.Range = new Range(new ParsedCondition(Variable, OperationTypes.Equal, caseItem.Value));
 				caseValues.Add(caseItem.Value);
 			}
-
-			Default.Scope.Range = Range.CreateFullRange(Variable).Except(caseValues);
+			if (Default != null)
+			{
+				Default.Scope.Range = Range.CreateFullRange(Variable).Except(caseValues);
+			}
 		}
 
 		private List<CaseCgi> GetCasesForSwitch(out DefaultCgi defaultItem)

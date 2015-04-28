@@ -1,5 +1,5 @@
 a(a);
-if(a)
+if(a == 0)
 {
 }
 else

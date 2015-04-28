@@ -1,4 +1,4 @@
-switch(a==5&&b<4||(true))
+switch(a)
 {
 case 1:
 {
@@ -14,7 +14,7 @@ a(1);
 }
 }
 
-switch(a==5&&b<4||(true))
+switch(b)
 {
 case 1:
 {
@@ -26,7 +26,7 @@ a(1);
 }
 }
 
-switch(a==5&&b<4||(true))
+switch(c)
 {
 case 1:
 {
@@ -40,7 +40,7 @@ default:
 }
 }
 
-switch(a==5&&b<4||(true))
+switch(d)
 {
 default:
 {
