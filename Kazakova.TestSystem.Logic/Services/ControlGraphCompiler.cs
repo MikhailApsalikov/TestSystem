@@ -6,6 +6,7 @@
 	using Entities;
 	using Entities.ControlGraphItems;
 	using Entities.ControlGraphItems.Interfaces;
+	using Entities.Scopes;
 	using QuickGraph;
 
 	internal static class ControlGraphCompiler
@@ -102,12 +103,13 @@
 		{
 			foreach (var cycle in vertexes.OfType<ICycle>())
 			{
-				AddEdge(result, cycle.ShownId, GetVertexName(cycle.Scope.NextAfterScope));
-
-				foreach (var item in GetPreviousVertexes(result, cycle.Scope.NextAfterScope.ShownId).ToList())
+				var previous =
+					GetPreviousVertexes(result, cycle.Scope.ParentScope, cycle.Scope.NextAfterScope.ShownId).ToList();
+				foreach (var item in previous)
 				{
 					AddEdge(result, item, GetVertexName(cycle));
 				}
+				AddEdge(result, cycle.ShownId, GetVertexName(cycle.Scope.NextAfterScope));
 			}
 		}
 
@@ -156,9 +158,20 @@
 			RemoveEdge(result, GetVertexName(vertex1), GetVertexName(vertex2));
 		}
 
-		private static IEnumerable<String> GetPreviousVertexes(BidirectionalGraph<object, IEdge<object>> graph, String index)
+		private static IEnumerable<String> GetPreviousVertexes(BidirectionalGraph<object, IEdge<object>> graph,
+			Scope parentScope, String index)
 		{
-			return graph.Edges.Where(edge => edge.Target.ToString() == index).Select(edge => edge.Source.ToString());
+			if (parentScope == null)
+			{
+				return
+					graph.Edges.Where(edge => edge.Target.ToString() == index)
+						.Select(edge => edge.Source.ToString());
+			}
+
+			return
+				graph.Edges.Where(edge => edge.Target.ToString() == index &&
+				                          parentScope.GetValuableVertexes().Any(e => e.ShownId == edge.Source.ToString()))
+					.Select(edge => edge.Source.ToString());
 		}
 	}
 }

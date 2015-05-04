@@ -1,6 +1,7 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.Scopes
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using ControlGraphItems;
 	using ControlGraphItems.Interfaces;
@@ -93,6 +94,11 @@
 		public bool IsIncluded(int index)
 		{
 			return index > Begin && index < End;
+		}
+
+		public IEnumerable<IValuable> GetValuableVertexes()
+		{
+			return graph.Where(i => i.Id>Begin&&i.Id<End).OfType<IValuable>();
 		}
 
 		private bool CalculateValuableItems()
