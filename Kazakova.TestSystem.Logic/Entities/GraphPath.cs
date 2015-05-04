@@ -103,11 +103,13 @@
 
 		private Dictionary<string, Range> GetRangesForScope(ScopeBase scope)
 		{
-			var result = new Dictionary<string, Range>
+			var result = new Dictionary<string, Range>();
+			if (scope.Range != null)
 			{
-				{scope.Range.Variable, scope.Range}
-			};
-			foreach (var parentScope in scope.GetParentScopes())
+				result.Add(scope.Range.Variable, scope.Range);
+			}
+
+			foreach (var parentScope in scope.GetParentScopes().Where(s=>s.Range!=null))
 			{
 				ApplyParentRange(result, parentScope.Range);
 			}

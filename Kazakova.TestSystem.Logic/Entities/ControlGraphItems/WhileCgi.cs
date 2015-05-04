@@ -1,7 +1,7 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities.ControlGraphItems
 {
 	using System;
-	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using Interfaces;
 	using Scopes;
 
 	internal class WhileCgi : ControlGraphItem, IScopeOwner, IValuable, ICycle
@@ -20,7 +20,6 @@
 
 		public void InitializeRanges()
 		{
-			throw new NotImplementedException();
 		}
 
 		public string ShownId { get; private set; }

@@ -20,7 +20,6 @@
 
 		public void InitializeRanges()
 		{
-			throw new NotImplementedException();
 		}
 
 		public string ShownId { get; private set; }
