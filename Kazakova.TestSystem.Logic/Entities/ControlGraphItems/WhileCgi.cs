@@ -2,6 +2,7 @@
 {
 	using System;
 	using Kazakova.TestSystem.Logic.Entities.ControlGraphItems.Interfaces;
+	using Scopes;
 
 	internal class WhileCgi : ControlGraphItem, IScopeOwner, IValuable, ICycle
 	{

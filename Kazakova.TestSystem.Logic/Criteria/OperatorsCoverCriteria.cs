@@ -6,6 +6,7 @@
 	using Entities;
 	using Entities.ControlGraphItems;
 	using Entities.ControlGraphItems.Interfaces;
+	using Entities.Scopes;
 
 	internal class OperatorsCoverCriteria : BaseCriteria
 	{

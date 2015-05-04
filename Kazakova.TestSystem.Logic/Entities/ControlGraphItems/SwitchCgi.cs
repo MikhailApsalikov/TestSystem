@@ -6,6 +6,7 @@
 	using System.Text.RegularExpressions;
 	using Enums;
 	using Interfaces;
+	using Scopes;
 
 	internal class SwitchCgi : Condition, IValuable, IScopeOwner
 	{

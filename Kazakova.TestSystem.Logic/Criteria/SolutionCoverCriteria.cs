@@ -6,6 +6,7 @@
 	using Entities;
 	using Entities.ControlGraphItems;
 	using Entities.ControlGraphItems.Interfaces;
+	using Entities.Scopes;
 
 	internal class SolutionCoverCriteria : BaseCriteria
 	{
@@ -37,7 +38,7 @@
 				return GeneratePathes(path, nextAfterScope, endIndex);
 			}
 
-			GraphPath anotherPath = (GraphPath)path.Clone();
+			var anotherPath = (GraphPath) path.Clone();
 			var pathes = AddScope(path, ifCgi.Scope);
 			if (ifCgi.ScopeAlternative != null)
 			{
@@ -45,6 +46,7 @@
 			}
 			else
 			{
+				anotherPath.AddFakeScope(new FakeScope(controlGraph, ifCgi, ifCgi.Scope.End, new Range(ifCgi.Expression.Revert())));
 				pathes = pathes.Union(new List<GraphPath> {anotherPath});
 			}
 
@@ -64,23 +66,23 @@
 			IEnumerable<GraphPath> pathes = new List<GraphPath>();
 			foreach (var item in switchCgi.Cases.Where(caseItem => caseItem.Scope.HasValuableItems))
 			{
-				GraphPath anotherPath = (GraphPath)path.Clone();
+				var anotherPath = (GraphPath) path.Clone();
 				pathes = pathes.Union(AddScope(anotherPath, item.Scope));
 			}
 
 			if (switchCgi.Default == null || !switchCgi.Default.Scope.HasValuableItems)
 			{
-				GraphPath anotherPath = (GraphPath)path.Clone();
+				var anotherPath = (GraphPath) path.Clone();
 				pathes = pathes.Union(GeneratePathes(anotherPath, switchCgi.Scope.End + 1, endIndex)).ToList();
 			}
 			else
 			{
-				GraphPath anotherPath = (GraphPath)path.Clone();
+				var anotherPath = (GraphPath) path.Clone();
 				pathes = pathes.Union(AddScope(anotherPath, switchCgi.Default.Scope));
 
 				if (switchCgi.Cases.Any(caseItem => !caseItem.Scope.HasValuableItems) && switchCgi.Cases.Any())
 				{
-					GraphPath thirdPath = (GraphPath)path.Clone();
+					var thirdPath = (GraphPath) path.Clone();
 					pathes = pathes.Union(GeneratePathes(thirdPath, switchCgi.Scope.End + 1, endIndex)).ToList();
 				}
 			}
@@ -97,9 +99,9 @@
 		protected override IEnumerable<GraphPath> HandleCycles(GraphPath path, ICycle cycleCgi, int endIndex = Int32.MaxValue)
 		{
 			var nextAfterScope = ((ControlGraphItem) cycleCgi.Scope.NextAfterScope).Id;
-			GraphPath anotherPath = (GraphPath)path.Clone();
+			var anotherPath = (GraphPath) path.Clone();
 			var pathes = AddScope(anotherPath, cycleCgi.Scope).ToList();
-			pathes.Add((GraphPath)path.Clone());
+			pathes.Add((GraphPath) path.Clone());
 			var result = new List<GraphPath>();
 
 			foreach (var p in pathes)

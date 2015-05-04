@@ -1,21 +1,15 @@
-﻿namespace Kazakova.TestSystem.Logic.Entities
+﻿namespace Kazakova.TestSystem.Logic.Entities.Scopes
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Linq;
 	using ControlGraphItems;
 	using ControlGraphItems.Interfaces;
 
-	internal class Scope
+	internal sealed class Scope : ScopeBase
 	{
-		private readonly ControlGraph graph;
-		private readonly IScopeOwner owner;
-
 		public Scope(ControlGraph graph, IScopeOwner owner)
+			: base(graph, owner)
 		{
-			IsAlternative = false;
-			this.graph = graph;
-			this.owner = owner;
 			Begin = GetScopeBegin(((ControlGraphItem) owner).Id);
 			End = GetScopeEnd(Begin);
 			HasValuableItems = CalculateValuableItems();
@@ -24,10 +18,8 @@
 		}
 
 		public Scope(ControlGraph graph, IScopeOwner owner, int index)
+			: base(graph, owner, index)
 		{
-			IsAlternative = true;
-			this.graph = graph;
-			this.owner = owner;
 			Begin = GetScopeBegin(index);
 			End = GetScopeEnd(Begin);
 			HasValuableItems = CalculateValuableItems();
@@ -35,14 +27,10 @@
 			DetectParentScope();
 		}
 
-		public int Begin { get; private set; }
-		public int End { get; private set; }
-		public bool HasValuableItems { get; private set; }
-		public IScopeOwner ParentScopeOwner { get; private set; }
-		public bool IsAlternative { get; set; }
-		public Scope ParentScope { get; private set; }
-		public bool HasNestedConditions { get; private set; }
-		public Range Range { get; set; }
+		public override int Begin { get; protected set; }
+		public override int End { get; protected set; }
+		public override bool HasValuableItems { get; protected set; }
+		public override bool HasNestedConditions { get; protected set; }
 
 		public IValuable NextAfterScope
 		{
@@ -107,22 +95,6 @@
 			return index > Begin && index < End;
 		}
 
-		public List<Scope> GetParentScopes()
-		{
-			var result = new List<Scope>
-			{
-				this
-			};
-			var scope = this;
-			while (scope.ParentScope != null)
-			{
-				result.Add(scope.ParentScope);
-				scope = scope.ParentScope;
-			}
-
-			return result;
-		}
-
 		private bool CalculateValuableItems()
 		{
 			for (var i = Begin; i < End; i++)
@@ -175,40 +147,6 @@
 		private void DetectAnyConditions()
 		{
 			HasNestedConditions = graph.Where(item => item.Id > Begin && item.Id < End).OfType<Condition>().Any();
-		}
-
-		private void DetectParentScope()
-		{
-			for (var i = ((ControlGraphItem) owner).Id - 1; i > 0; i--)
-			{
-				if (graph[i] is IScopeOwner)
-				{
-					if (((IScopeOwner) graph[i]).Scope.IsIncluded(Begin))
-					{
-						ParentScopeOwner = graph[i] as IScopeOwner;
-						ParentScope = ParentScopeOwner.Scope;
-						return;
-					}
-
-					if (graph[i] is IScopeAlternativeOwner)
-					{
-						var scopeAlternative = ((IScopeAlternativeOwner) graph[i]).ScopeAlternative;
-						if (scopeAlternative == null)
-						{
-							return;
-						}
-
-						if (scopeAlternative.IsIncluded(Begin))
-						{
-							ParentScopeOwner = graph[i] as IScopeOwner;
-							ParentScope = (ParentScopeOwner as IScopeAlternativeOwner).ScopeAlternative;
-							return;
-						}
-					}
-				}
-			}
-
-			ParentScope = null;
 		}
 	}
 }

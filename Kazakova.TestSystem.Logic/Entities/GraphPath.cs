@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using ControlGraphItems.Interfaces;
+	using Scopes;
 
 	internal class GraphPath : ICloneable
 	{
@@ -14,10 +15,10 @@
 		{
 			this.graph = graph;
 			Items = new List<IValuable>();
-			Scopes = new List<Scope>();
+			Scopes = new List<ScopeBase>();
 		}
 
-		public List<Scope> Scopes { get; set; }
+		public List<ScopeBase> Scopes { get; set; }
 		public List<IValuable> Items { get; set; }
 
 		public Dictionary<string, Range> Ranges
@@ -68,6 +69,11 @@
 			Items.Add(item);
 		}
 
+		internal void AddFakeScope(FakeScope scope)
+		{
+			Scopes.Add(scope);
+		}
+
 		internal void AddScope(Scope scope)
 		{
 			Items.AddRange(graph.Where(item => item.Id < scope.End && item.Id > scope.Begin).OfType<IValuable>());
@@ -95,7 +101,7 @@
 				Ranges.Select(pair => String.Format("{0} = {1}", pair.Key, pair.Value.OneValue.Value)).ToArray());
 		}
 
-		private Dictionary<string, Range> GetRangesForScope(Scope scope)
+		private Dictionary<string, Range> GetRangesForScope(ScopeBase scope)
 		{
 			var result = new Dictionary<string, Range>
 			{

@@ -4,6 +4,7 @@
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using Interfaces;
+	using Scopes;
 
 	internal class IfCgi : Condition, IScopeOwner, IScopeAlternativeOwner
 	{

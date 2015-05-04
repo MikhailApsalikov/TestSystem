@@ -165,9 +165,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Todo.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Рисунок1.jpg" />
   </ItemGroup>
   <ItemGroup>

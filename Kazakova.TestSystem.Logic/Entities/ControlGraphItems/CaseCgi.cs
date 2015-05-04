@@ -3,6 +3,7 @@
 	using System;
 	using System.Text.RegularExpressions;
 	using Interfaces;
+	using Scopes;
 
 	internal class CaseCgi : ControlGraphItem, IScopeOwner
 	{

@@ -80,7 +80,9 @@
     <Compile Include="Entities\ControlGraphItems\DefaultCgi.cs" />
     <Compile Include="Entities\ControlGraphItems\CommonCgi.cs" />
     <Compile Include="Entities\ControlGraphItems\ElseCgi.cs" />
+    <Compile Include="Entities\Scopes\FakeScope.cs" />
     <Compile Include="Entities\ControlGraphItems\Interfaces\ICycle.cs" />
+    <Compile Include="Entities\Scopes\ScopeBase.cs" />
     <Compile Include="Entities\ControlGraphItems\ParsedCondition.cs" />
     <Compile Include="Entities\ControlGraphItems\RightBraceCgi.cs" />
     <Compile Include="Entities\ControlGraphItems\LeftBraceCgi.cs" />
@@ -95,7 +97,7 @@
     <Compile Include="Entities\ControlGraphItems\SwitchCgi.cs" />
     <Compile Include="Entities\ICloneable.cs" />
     <Compile Include="Entities\Range.cs" />
-    <Compile Include="Entities\Scope.cs" />
+    <Compile Include="Entities\Scopes\Scope.cs" />
     <Compile Include="Entities\GraphPath.cs" />
     <Compile Include="Enums\ControlGraphItemType.cs" />
     <Compile Include="Enums\Criteries.cs" />
