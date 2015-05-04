@@ -18,14 +18,10 @@
 			ParseVariable(ConditionRegex);
 		}
 
-		private void ParseVariable(string conditionRegex)
-		{
-			Variable = Regex.Match(content, conditionRegex).Groups[1].Value;
-		}
-
 		public string Variable { get; private set; }
 		public List<CaseCgi> Cases { get; private set; }
 		public DefaultCgi Default { get; private set; }
+		public Range DefaultRange { get; private set; }
 
 		public override int ValuableBranches
 		{
@@ -84,16 +80,23 @@
 		public void InitializeRanges()
 		{
 			Scope.Range = Range.CreateFullRange(Variable);
-			List<double> caseValues = new List<double>();
+			var caseValues = new List<double>();
 			foreach (var caseItem in Cases)
 			{
 				caseItem.Scope.Range = new Range(new ParsedCondition(Variable, OperationTypes.Equal, caseItem.Value));
 				caseValues.Add(caseItem.Value);
 			}
+			DefaultRange = Range.CreateFullRange(Variable).Except(caseValues);
+
 			if (Default != null)
 			{
-				Default.Scope.Range = Range.CreateFullRange(Variable).Except(caseValues);
+				Default.Scope.Range = DefaultRange;
 			}
+		}
+
+		private void ParseVariable(string conditionRegex)
+		{
+			Variable = Regex.Match(content, conditionRegex).Groups[1].Value;
 		}
 
 		private List<CaseCgi> GetCasesForSwitch(out DefaultCgi defaultItem)
@@ -108,7 +111,7 @@
 				graph.Where(
 					item =>
 						((item is CaseCgi) && item.Id > Scope.Begin && item.Id < Scope.End &&
-						 ((IScopeOwner)item).Scope.ParentScopeOwner == this)).OfType<CaseCgi>().ToList();
+						 ((IScopeOwner) item).Scope.ParentScopeOwner == this)).OfType<CaseCgi>().ToList();
 		}
 
 		public void InitializeCases()

@@ -69,7 +69,7 @@
 			Items.Add(item);
 		}
 
-		internal void AddFakeScope(FakeScope scope)
+		internal void AddScope(ScopeBase scope)
 		{
 			Scopes.Add(scope);
 		}

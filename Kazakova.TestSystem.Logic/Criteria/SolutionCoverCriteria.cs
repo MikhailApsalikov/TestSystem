@@ -46,7 +46,7 @@
 			}
 			else
 			{
-				anotherPath.AddFakeScope(new FakeScope(controlGraph, ifCgi, ifCgi.Scope.End, new Range(ifCgi.Expression.Revert())));
+				anotherPath.AddScope(new FakeScope(controlGraph, ifCgi, ifCgi.Scope.End, new Range(ifCgi.Expression.Revert())));
 				pathes = pathes.Union(new List<GraphPath> {anotherPath});
 			}
 
@@ -64,7 +64,7 @@
 		{
 			var nextAfterScope = ((ControlGraphItem) switchCgi.Scope.NextAfterScope).Id;
 			IEnumerable<GraphPath> pathes = new List<GraphPath>();
-			foreach (var item in switchCgi.Cases.Where(caseItem => caseItem.Scope.HasValuableItems))
+			foreach (var item in switchCgi.Cases)
 			{
 				var anotherPath = (GraphPath) path.Clone();
 				pathes = pathes.Union(AddScope(anotherPath, item.Scope));
@@ -73,18 +73,14 @@
 			if (switchCgi.Default == null || !switchCgi.Default.Scope.HasValuableItems)
 			{
 				var anotherPath = (GraphPath) path.Clone();
-				pathes = pathes.Union(GeneratePathes(anotherPath, switchCgi.Scope.End + 1, endIndex)).ToList();
+				anotherPath.AddScope(new FakeScope(controlGraph, switchCgi, switchCgi.Scope.End,
+					new Range(switchCgi.Variable, switchCgi.DefaultRange)));
+				pathes = pathes.Union(new List<GraphPath> {anotherPath});
 			}
 			else
 			{
 				var anotherPath = (GraphPath) path.Clone();
 				pathes = pathes.Union(AddScope(anotherPath, switchCgi.Default.Scope));
-
-				if (switchCgi.Cases.Any(caseItem => !caseItem.Scope.HasValuableItems) && switchCgi.Cases.Any())
-				{
-					var thirdPath = (GraphPath) path.Clone();
-					pathes = pathes.Union(GeneratePathes(thirdPath, switchCgi.Scope.End + 1, endIndex)).ToList();
-				}
 			}
 
 			var result = new List<GraphPath>();
