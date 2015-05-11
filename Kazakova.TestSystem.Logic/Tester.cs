@@ -41,6 +41,12 @@
 			return criteries[criteria].GetPathes()[pathId].GetRequiredParametersAsString();
 		}
 
+		public string ExecuteCodeAndGetResultAsString(Criteries criteria, int pathId)
+		{
+			CheckPathCache(criteria);
+			return criteries[criteria].GetPathes()[pathId].ExecuteCodeAndGetResultAsString();
+		}
+
 		private void CheckPathCache(Criteries criteria)
 		{
 			if (!criteries.ContainsKey(criteria))
@@ -54,9 +60,11 @@
 						criteries[criteria] = new SolutionCoverCriteria(controlGraph);
 						break;
 					case Criteries.ConditionsCover:
-						throw new NotImplementedException();
+						criteries[criteria] = new SolutionCoverCriteria(controlGraph);
+						break;
 					case Criteries.SolutionsAndConditionsCover:
-						throw new NotImplementedException();
+						criteries[criteria] = new SolutionCoverCriteria(controlGraph);
+						break;
 					default:
 						throw new ArgumentException(
 							"Метод GetBidirectionGraphForPath получил в качестве параметра несуществующий критерий");

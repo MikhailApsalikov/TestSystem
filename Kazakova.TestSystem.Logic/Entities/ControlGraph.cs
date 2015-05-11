@@ -9,8 +9,11 @@
 
 	internal class ControlGraph : List<ControlGraphItem>
 	{
+		public String Content { get; private set; }
+
 		public ControlGraph(String content)
 		{
+			Content = content;
 			AddRange(Parser.Parse(this, content, 60));
 			foreach (var item in this.OfType<IScopeOwner>())
 			{

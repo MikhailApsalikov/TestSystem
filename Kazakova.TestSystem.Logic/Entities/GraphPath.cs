@@ -1,10 +1,12 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities
 {
 	using System;
+	using System.CodeDom.Compiler;
 	using System.Collections.Generic;
 	using System.Linq;
 	using ControlGraphItems.Interfaces;
 	using Scopes;
+	using Services.Compiler;
 
 	internal class GraphPath : ICloneable
 	{
@@ -142,6 +144,11 @@
 			{
 				first.Add(parentRange.Variable, parentRange);
 			}
+		}
+
+		public string ExecuteCodeAndGetResultAsString()
+		{
+			return CodeExecutor.CompileAndExecute(graph, Ranges.Keys.ToList());
 		}
 	}
 }

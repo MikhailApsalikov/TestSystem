@@ -1,14 +1,14 @@
 if (b>2)
 {
-a(a);
-a(a);
-a(a);
+Console.WriteLine("123");
+Console.WriteLine("123");
+Console.WriteLine("123");
 }
 else
 {
-a(c);
-a(c);
-a(c);
+Console.WriteLine("123");
+Console.WriteLine("123");
+Console.WriteLine("123");
 }
 if (b<1)
 {
@@ -16,16 +16,16 @@ if (b<1)
 }
 else
 {
-a(c);
-a(c);
-a(c);
+Console.WriteLine("123");
+Console.WriteLine("123");
+Console.WriteLine("123");
 }
 
 if (b==0)
 {
-a(a);
-a(a);
-a(a);
+Console.WriteLine("123");
+Console.WriteLine("123");
+Console.WriteLine("123");
 }
 else
 {
@@ -46,3 +46,4 @@ if (b<-4)
 
 }
 
+return 3.4;
