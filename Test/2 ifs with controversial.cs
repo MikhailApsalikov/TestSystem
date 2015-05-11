@@ -1,31 +1,33 @@
 if (a==50)
 {
-c(a);
-d(c);
-c(a);
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
 }
 else
 {
-c(a);
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 }
 
 if (a!=50)
 {
-c(a);
-d(c);
-c(a);
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
 }
 else
 {
-c(a);
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 }
+
+return "Here it goes!";

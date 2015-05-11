@@ -12,16 +12,15 @@
 
 	internal static class CodeExecutor
 	{
-		public static string CompileAndExecute(ControlGraph graph, Dictionary<String, Range> ranges)
+		public static string CompileAndExecute(ControlGraph graph, Dictionary<string, Range> ranges, List<string> variables)
 		{
-			var sortedRanges = new SortedDictionary<string, Range>(ranges);
-			var parameters = GenerateTemplateForParameters(sortedRanges.Keys.ToList());
+			var parameters = GenerateTemplateForParameters(variables);
 			if (graph.AssemblyFileName == null)
 			{
 				graph.AssemblyFileName = Compile(InjectCodeIntoTemplate(graph.Content, parameters));
 			}
 
-			return Execute(graph.AssemblyFileName, sortedRanges.Values.ToList());
+			return Execute(graph.AssemblyFileName, ranges, variables);
 		}
 
 		private static string GenerateTemplateForParameters(List<string> variableNames)
@@ -59,13 +58,13 @@
 			return fileName;
 		}
 
-		private static string Execute(string assemblyFileName, List<Range> ranges)
+		private static string Execute(string assemblyFileName, Dictionary<string, Range> ranges, List<string> variables)
 		{
 			var dll = Assembly.LoadFile(Path.Combine(Environment.CurrentDirectory, assemblyFileName));
-			var parameters = new object[ranges.Count];
+			var parameters = new object[variables.Count];
 			for (var i = 0; i < parameters.Length; i++)
 			{
-				parameters[i] = ranges[i].OneValue ?? 0;
+				parameters[i] = ranges.ContainsKey(variables[i]) ? ranges[variables[i]].OneValue ?? 0 : 0;
 			}
 
 			return

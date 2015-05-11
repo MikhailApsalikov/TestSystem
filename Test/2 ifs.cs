@@ -1,31 +1,32 @@
 if (a>5)
 {
-c(a);
-d(c);
-c(a);
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
 }
 else
 {
-c(a);
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 }
 
 if (b<2)
 {
-c(a);
-d(c);
-c(a);
+Console.WriteLine();
+Console.WriteLine();
 
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
 }
 else
 {
-c(a);
-d(c);
-e(s);
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
 }
+
+return a+b;

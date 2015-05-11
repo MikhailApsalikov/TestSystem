@@ -1,9 +1,11 @@
-a(a);
+Console.WriteLine();
 if(a == 0)
 {
 }
 else
 {
 }
-a(a);
-a(a);
+Console.WriteLine();
+Console.WriteLine();
+
+return a;

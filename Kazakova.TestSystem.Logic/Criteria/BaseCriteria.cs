@@ -79,5 +79,26 @@
 		{
 			return pathes.Where(p => p.IsValid).ToList();
 		}
+
+		public List<string> GetVariablesList()
+		{
+			var result = new List<string>();
+			foreach (var range in GetPathes().SelectMany(path => path.Ranges.Where(range => !result.Contains(range.Key))))
+			{
+				result.Add(range.Key);
+			}
+
+			foreach (var ifCgi in controlGraph.OfType<IfCgi>().Where(ifCgi => !result.Contains(ifCgi.Expression.Variable)))
+			{
+				result.Add(ifCgi.Expression.Variable);
+			}
+
+			foreach (var switchCgi in controlGraph.OfType<SwitchCgi>().Where(switchCgi => !result.Contains(switchCgi.Variable)))
+			{
+				result.Add(switchCgi.Variable);
+			}
+
+			return result;
+		}
 	}
 }

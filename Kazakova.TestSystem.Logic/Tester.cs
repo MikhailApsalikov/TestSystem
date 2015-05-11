@@ -44,7 +44,7 @@
 		public string ExecuteCodeAndGetResultAsString(Criteries criteria, int pathId)
 		{
 			CheckPathCache(criteria);
-			return criteries[criteria].GetPathes()[pathId].ExecuteCodeAndGetResultAsString();
+			return criteries[criteria].GetPathes()[pathId].ExecuteCodeAndGetResultAsString(criteries[criteria].GetVariablesList());
 		}
 
 		private void CheckPathCache(Criteries criteria)

@@ -1,7 +1,6 @@
 ﻿namespace Kazakova.TestSystem.Logic.Entities
 {
 	using System;
-	using System.CodeDom.Compiler;
 	using System.Collections.Generic;
 	using System.Linq;
 	using ControlGraphItems.Interfaces;
@@ -146,9 +145,9 @@
 			}
 		}
 
-		public string ExecuteCodeAndGetResultAsString()
+		public string ExecuteCodeAndGetResultAsString(List<String> variables)
 		{
-			return CodeExecutor.CompileAndExecute(graph, Ranges);
+			return CodeExecutor.CompileAndExecute(graph, Ranges, variables);
 		}
 	}
 }
