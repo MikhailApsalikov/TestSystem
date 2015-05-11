@@ -21,7 +21,7 @@ Console.WriteLine("123");
 Console.WriteLine("123");
 }
 
-if (b==0)
+if (a==0)
 {
 Console.WriteLine("123");
 Console.WriteLine("123");
@@ -32,7 +32,7 @@ else
 
 }
 
-if (b!=98)
+if (a!=98)
 {
 
 }
@@ -46,4 +46,4 @@ if (b<-4)
 
 }
 
-return 3.4;
+return b+a;

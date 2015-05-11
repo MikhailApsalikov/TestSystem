@@ -4,17 +4,24 @@
 	using System.CodeDom.Compiler;
 	using System.Collections.Generic;
 	using System.Data;
+	using System.IO;
 	using System.Linq;
+	using System.Reflection;
 	using Entities;
 	using Microsoft.CSharp;
 
 	internal static class CodeExecutor
 	{
-		public static string CompileAndExecute(ControlGraph graph, List<String> variableNames)
+		public static string CompileAndExecute(ControlGraph graph, Dictionary<String, Range> ranges)
 		{
-			var parameters = GenerateTemplateForParameters(variableNames);
-			String assemblyFileName = Compile(InjectCodeIntoTemplate(graph.Content, parameters));
-			return "123";
+			var sortedRanges = new SortedDictionary<string, Range>(ranges);
+			var parameters = GenerateTemplateForParameters(sortedRanges.Keys.ToList());
+			if (graph.AssemblyFileName == null)
+			{
+				graph.AssemblyFileName = Compile(InjectCodeIntoTemplate(graph.Content, parameters));
+			}
+
+			return Execute(graph.AssemblyFileName, sortedRanges.Values.ToList());
 		}
 
 		private static string GenerateTemplateForParameters(List<string> variableNames)
@@ -30,8 +37,7 @@
 		private static String Compile(String source)
 		{
 			var codeProvider = new CSharpCodeProvider();
-			var fileName = Guid.NewGuid() + "out.dll";
-
+			var fileName = Guid.NewGuid() + ".dll";
 			var results = codeProvider.CompileAssemblyFromSource(new CompilerParameters
 			{
 				GenerateExecutable = false,
@@ -51,6 +57,22 @@
 			}
 
 			return fileName;
+		}
+
+		private static string Execute(string assemblyFileName, List<Range> ranges)
+		{
+			var dll = Assembly.LoadFile(Path.Combine(Environment.CurrentDirectory, assemblyFileName));
+			var parameters = new object[ranges.Count];
+			for (var i = 0; i < parameters.Length; i++)
+			{
+				parameters[i] = ranges[i].OneValue ?? 0;
+			}
+
+			return
+				dll.GetType("Kazakova.TestSystem.GeneratedCode.GeneratedClass")
+					.GetMethod("GeneratedMethod")
+					.Invoke(null, parameters)
+					.ToString();
 		}
 
 		#region Template

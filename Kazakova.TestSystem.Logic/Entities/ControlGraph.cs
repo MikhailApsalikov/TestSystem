@@ -11,6 +11,8 @@
 	{
 		public String Content { get; private set; }
 
+		public String AssemblyFileName { get; set; }
+
 		public ControlGraph(String content)
 		{
 			Content = content;

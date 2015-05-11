@@ -148,7 +148,7 @@
 
 		public string ExecuteCodeAndGetResultAsString()
 		{
-			return CodeExecutor.CompileAndExecute(graph, Ranges.Keys.ToList());
+			return CodeExecutor.CompileAndExecute(graph, Ranges);
 		}
 	}
 }
