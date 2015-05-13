@@ -58,14 +58,25 @@
 
 		private void PathListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			Path.Visibility = Visibility.Hidden;
+
 			if (PathListBox.SelectedIndex == -1)
 			{
+				ShowVariablesButton.Visibility = Visibility.Hidden;
 				return;
 			}
 
-			var pathIndex = PathListBox.SelectedIndex;
-
+			ShowVariablesButton.Visibility = Visibility.Visible;
+			int pathIndex = PathListBox.SelectedIndex;
 			pathLayout.Graph = tester.GetBidirectionGraphForPath(criteria, pathIndex);
+			
+		}
+
+		private void ShowVariablesButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			var pathIndex = PathListBox.SelectedIndex;
+			Path.Visibility = Visibility.Visible;
+			ShowVariablesButton.Visibility = Visibility.Hidden;
 			Path.Content = String.Format("Входными данными для этого пути являются: {0}{1}{0}Результат выполнения: {2}", Environment.NewLine,
 				tester.GetRequiredParametersForPathAsString(criteria, pathIndex), tester.ExecuteCodeAndGetResultAsString(criteria, pathIndex));
 		}

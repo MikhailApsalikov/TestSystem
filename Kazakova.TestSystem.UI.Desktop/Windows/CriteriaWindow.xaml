@@ -10,7 +10,7 @@
 		<Label Content="Тестируемый код" Foreground="#FF290E85" HorizontalAlignment="Left" FontFamily="Arial" Margin="10,83,0,0" FontSize="22" VerticalAlignment="Top"/>
 		<Label Content="Управляющий граф" Foreground="#FF290E85" HorizontalAlignment="Left" FontFamily="Arial" Margin="284,83,0,0" FontSize="22" VerticalAlignment="Top"/>
 		<Label Content="Пути тестирования" Foreground="#FF290E85" HorizontalAlignment="Left" FontFamily="Arial" Margin="540,83,0,0" FontSize="22" VerticalAlignment="Top"/>
-		<Label x:Name="Path" Foreground="#FF290E85" HorizontalAlignment="Left" Margin="816,65,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="15" Width="429" HorizontalContentAlignment="Center" Height="55"/>
+		<Label x:Name="Path" Visibility="Hidden" Foreground="#FF290E85" HorizontalAlignment="Left" Margin="816,65,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="15" Width="429" HorizontalContentAlignment="Center" Height="55"/>
 		<TextBox x:Name="CodeContent" Margin="10,130,995,10" IsReadOnly="True" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"></TextBox>
 		<ListBox x:Name="PathListBox" Foreground="#FF290E85" HorizontalAlignment="Left" Height="431" Margin="540,130,0,0" FontSize="20" FontFamily="Arial" VerticalAlignment="Top" Width="133" SelectionChanged="PathListBox_SelectionChanged"/>
 		<graphsharp:GraphLayout x:Name="graphLayout"
@@ -21,5 +21,6 @@
 								LayoutAlgorithmType="EfficientSugiyama"
 								HighlightAlgorithmType="Simple" Margin="-1,0,0,0"/>
 		</zoom:ZoomControl>
+		<Button x:Name="ShowVariablesButton" Visibility="Hidden" FontSize="20" FontFamily="Arial" Content="Подсчитать входные/выходные данные" HorizontalAlignment="Left" Margin="834,79,0,0" VerticalAlignment="Top" Width="397" Click="ShowVariablesButton_OnClick"/>
 	</Grid>
 </Window>
