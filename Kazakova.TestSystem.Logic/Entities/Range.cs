@@ -55,10 +55,30 @@
 
 		public string Variable { get; private set; }
 
+		public int? OneIntValue
+		{
+			get
+			{
+				var hasIntValue = this.Any(v => Math.Abs(v - (int) v) < Tolerance);
+				if (hasIntValue)
+				{
+					return (int) this.First(v => Math.Abs(v - (int) v) < Tolerance);
+				}
+
+				return null;
+			}
+		}
+
 		public double? OneValue
 		{
 			get
 			{
+				var intValue = OneIntValue;
+				if (intValue != null)
+				{
+					return intValue;
+				}
+
 				if (this.Any())
 				{
 					return this.First();

@@ -91,7 +91,7 @@
 
 		private void InitializeExpression(string conditionRegex)
 		{
-			var condition = Regex.Match(content, conditionRegex).Groups[1].Value;
+			var condition = Regex.Match(content, conditionRegex).Groups[1].Value.Trim();
 			Expression = new ParsedCondition(condition);
 		}
 	}

@@ -96,7 +96,7 @@
 
 		private void ParseVariable(string conditionRegex)
 		{
-			Variable = Regex.Match(content, conditionRegex).Groups[1].Value;
+			Variable = Regex.Match(content, conditionRegex).Groups[1].Value.Trim();
 		}
 
 		private List<CaseCgi> GetCasesForSwitch(out DefaultCgi defaultItem)

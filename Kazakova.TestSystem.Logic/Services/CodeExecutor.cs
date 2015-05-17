@@ -8,13 +8,14 @@
 	using System.Linq;
 	using System.Reflection;
 	using Entities;
+	using Entities.ControlGraphItems;
 	using Microsoft.CSharp;
 
 	internal static class CodeExecutor
 	{
 		public static string CompileAndExecute(ControlGraph graph, Dictionary<string, Range> ranges, List<string> variables)
 		{
-			var parameters = GenerateTemplateForParameters(variables);
+			var parameters = GenerateTemplateForParameters(graph, variables, ranges);
 			if (graph.AssemblyFileName == null)
 			{
 				graph.AssemblyFileName = Compile(InjectCodeIntoTemplate(graph.Content, parameters));
@@ -23,9 +24,19 @@
 			return Execute(graph.AssemblyFileName, ranges, variables);
 		}
 
-		private static string GenerateTemplateForParameters(List<string> variableNames)
+		private static string GenerateTemplateForParameters(ControlGraph graph, List<string> variableNames,
+			Dictionary<string, Range> ranges)
 		{
-			return String.Join(", ", variableNames.Select(vn => String.Format("double {0}", vn)));
+			return String.Join(", ",
+				variableNames.Select(vn => String.Format("{1} {0}", vn, ranges.ContainsKey(vn) && CanBeDouble(
+					graph, ranges[vn])
+					? "double"
+					: "int")));
+		}
+
+		private static bool CanBeDouble(ControlGraph graph, Range range) // switch fix
+		{
+			return graph.OfType<SwitchCgi>().All(sw => sw.Variable != range.Variable);
 		}
 
 		private static string InjectCodeIntoTemplate(String source, String parameters)
@@ -64,7 +75,23 @@
 			var parameters = new object[variables.Count];
 			for (var i = 0; i < parameters.Length; i++)
 			{
-				parameters[i] = ranges.ContainsKey(variables[i]) ? ranges[variables[i]].OneValue ?? 0 : 0;
+				if (ranges.ContainsKey(variables[i]))
+				{
+					parameters[i] = ranges[variables[i]].OneIntValue;
+					if (parameters[i] == null)
+					{
+						parameters[i] = ranges[variables[i]].OneValue;
+
+						if (parameters[i] == null)
+						{
+							parameters[i] = 0;
+						}
+					}
+				}
+				else
+				{
+					parameters[i] = 0;
+				}
 			}
 
 			return

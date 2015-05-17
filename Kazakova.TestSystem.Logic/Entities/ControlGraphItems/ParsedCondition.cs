@@ -11,9 +11,9 @@
 			try
 			{
 				var parsed = Regex.Match(condition, @"^(.*) *(<|>|!=|==|<=|>=) *(-?\d*)$");
-				Variable = parsed.Groups[1].Value;
+				Variable = parsed.Groups[1].Value.Trim();
 				OperationType = ParseOperationType(parsed.Groups[2].Value);
-				Value = Int32.Parse(parsed.Groups[3].Value);
+				Value = Int32.Parse(parsed.Groups[3].Value.Trim());
 			}
 			catch (Exception)
 			{

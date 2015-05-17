@@ -82,23 +82,23 @@
 
 		public List<string> GetVariablesList()
 		{
-			var result = new List<string>();
-			foreach (var range in GetPathes().SelectMany(path => path.Ranges.Where(range => !result.Contains(range.Key))))
+			var result = new HashSet<string>();
+			foreach (var range in GetPathes().SelectMany(path => path.Ranges))
 			{
 				result.Add(range.Key);
 			}
 
-			foreach (var ifCgi in controlGraph.OfType<IfCgi>().Where(ifCgi => !result.Contains(ifCgi.Expression.Variable)))
+			foreach (var ifCgi in controlGraph.OfType<IfCgi>())
 			{
 				result.Add(ifCgi.Expression.Variable);
 			}
 
-			foreach (var switchCgi in controlGraph.OfType<SwitchCgi>().Where(switchCgi => !result.Contains(switchCgi.Variable)))
+			foreach (var switchCgi in controlGraph.OfType<SwitchCgi>())
 			{
 				result.Add(switchCgi.Variable);
 			}
 
-			return result;
+			return result.ToList();
 		}
 	}
 }
