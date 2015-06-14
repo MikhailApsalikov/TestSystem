@@ -1,75 +1,66 @@
-﻿using Kazakova.TestSystem.Logic;
-using Kazakova.TestSystem.Logic.Enums;
-using Kazakova.TestSystem.Logic.Services;
-using Kazakova.TestSystem.UI.Desktop.Content;
-using Microsoft.Win32;
-using QuickGraph;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-namespace Kazakova.TestSystem.UI.Desktop.Windows
+﻿namespace Kazakova.TestSystem.UI.Desktop.Windows
 {
+	using System;
+	using System.ComponentModel;
+	using System.Windows;
+	using Content;
+	using Logic;
+	using Logic.Enums;
+	using Logic.Fake;
+	using Logic.Services;
+	using Microsoft.Win32;
+
 	public partial class FileLoadWindow : Window
 	{
-		private GreetingsWindow greetingsWindow = null;
-		private Tester logic = null;
+		private ITester logic;
+		private readonly GreetingsWindow greetingsWindow;
 
 		public FileLoadWindow(GreetingsWindow greetingsWindow)
 		{
 			this.greetingsWindow = greetingsWindow;
-			this.InitializeComponent();
-			this.InitializeFields();
+			InitializeComponent();
+			InitializeFields();
 		}
 
 		private void InitializeFields()
 		{
-			this.Title = StringResources.ProgramName;
-			this.Header.Content = StringResources.FileLoadHeader;
-			this.Text.Content = StringResources.fileLoadText;
+			Title = StringResources.ProgramName;
+			Header.Content = StringResources.FileLoadHeader;
+			Text.Content = StringResources.fileLoadText;
 
-			this.OperatorsCover.IsEnabled = false;
-			this.ConditionsCover.IsEnabled = false;
-			this.SolutionsAndConditionsCover.IsEnabled = false;
-			this.SolutionsCover.IsEnabled = false;
+			OperatorsCover.IsEnabled = false;
+			ConditionsCover.IsEnabled = false;
+			SolutionsAndConditionsCover.IsEnabled = false;
+			SolutionsCover.IsEnabled = false;
 
-			this.OperatorsCover.Content = Criteries.OperatorsCover.GetString();
-			this.ConditionsCover.Content = Criteries.ConditionsCover.GetString();
-			this.SolutionsAndConditionsCover.Content = Criteries.SolutionsAndConditionsCover.GetString();
-			this.SolutionsCover.Content = Criteries.SolutionsCover.GetString();
+			OperatorsCover.Content = Criteries.OperatorsCover.GetString();
+			ConditionsCover.Content = Criteries.ConditionsCover.GetString();
+			SolutionsAndConditionsCover.Content = Criteries.SolutionsAndConditionsCover.GetString();
+			SolutionsCover.Content = Criteries.SolutionsCover.GetString();
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			greetingsWindow.Show();
-			this.Hide();
+			Hide();
 		}
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			String fileContent = "";
+			var fileContent = "";
 			try
 			{
-				String path = null;
-				OpenFileDialog ofd = new OpenFileDialog();
-				ofd.AddExtension = true;
-				ofd.CheckFileExists = true;
-				ofd.CheckPathExists = true;
-				ofd.DefaultExt = ".cs";
-				ofd.Filter = "C# source code|*.cs|Java source code|*.java|Text files|*.txt";
+				var ofd = new OpenFileDialog
+				{
+					AddExtension = true,
+					CheckFileExists = true,
+					CheckPathExists = true,
+					DefaultExt = ".cs",
+					Filter = "C# source code|*.cs|Java source code|*.java|Text files|*.txt"
+				};
 				if (ofd.ShowDialog() ?? false)
 				{
-					path = ofd.FileName;
+					var path = ofd.FileName;
 					fileContent = FileManager.Load(path);
 				}
 				else
@@ -86,8 +77,8 @@ namespace Kazakova.TestSystem.UI.Desktop.Windows
 			try
 			{
 #endif
-				Tester logic = new Tester(fileContent);
-				this.setLogic(logic);
+			var logic = FakeTester.IsFake(fileContent) ? new FakeTester(fileContent) : new Tester(fileContent) as ITester;
+			SetLogic(logic);
 #if !DEBUG
 			}
 			catch (Exception ex)
@@ -97,23 +88,24 @@ namespace Kazakova.TestSystem.UI.Desktop.Windows
 #endif
 		}
 
-		private void setLogic(Tester logic)
+		private void SetLogic(ITester logic)
 		{
 			this.logic = logic;
 			if (logic != null)
 			{
-				this.ShowText(logic);
-				this.graphLayout.Graph = logic.GetBidirectionGraphForWholeGraph();
-				this.OperatorsCover.IsEnabled = true;
-				this.ConditionsCover.IsEnabled = true;
-				this.SolutionsAndConditionsCover.IsEnabled = true;
-				this.SolutionsCover.IsEnabled = true;
+				ShowText(logic);
+				graphLayout.Graph = logic.GetBidirectionGraphForWholeGraph();
+				OperatorsCover.IsEnabled = true;
+				ConditionsCover.IsEnabled = true;
+				SolutionsAndConditionsCover.IsEnabled = true;
+				SolutionsCover.IsEnabled = true;
 			}
 		}
 
-		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void Window_Closing(object sender, CancelEventArgs e)
 		{
-			if (MessageBox.Show(StringResources.DoYouReallyWannaQuit, StringResources.Exit, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+			if (MessageBox.Show(StringResources.DoYouReallyWannaQuit, StringResources.Exit, MessageBoxButton.YesNo) ==
+			    MessageBoxResult.Yes)
 			{
 				Environment.Exit(0);
 			}
@@ -123,14 +115,14 @@ namespace Kazakova.TestSystem.UI.Desktop.Windows
 			}
 		}
 
-		private void ShowText(Tester content)
+		private void ShowText(ITester content)
 		{
-			this.CodeContent.Text = content.ToString();
+			CodeContent.Text = content.ToString();
 		}
 
 		private void OperatorsCover_Click(object sender, RoutedEventArgs e)
 		{
-            (new CriteriaWindow(Criteries.OperatorsCover, logic)).Show();
+			(new CriteriaWindow(Criteries.OperatorsCover, logic)).Show();
 		}
 
 		private void SolutionsCover_Click(object sender, RoutedEventArgs e)

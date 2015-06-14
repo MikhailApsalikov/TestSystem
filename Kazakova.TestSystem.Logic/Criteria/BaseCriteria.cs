@@ -12,7 +12,7 @@
 		protected List<GraphPath> cachedPathes;
 		protected ControlGraph controlGraph;
 
-		public BaseCriteria(ControlGraph controlGraph)
+		protected BaseCriteria(ControlGraph controlGraph)
 		{
 			this.controlGraph = controlGraph;
 		}

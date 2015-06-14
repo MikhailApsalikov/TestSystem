@@ -13,9 +13,9 @@
 	public partial class CriteriaWindow : Window
 	{
 		private readonly Criteries criteria;
-		private readonly Tester tester;
+		private readonly ITester tester;
 
-		public CriteriaWindow(Criteries criteria, Tester tester)
+		public CriteriaWindow(Criteries criteria, ITester tester)
 		{
 			InitializeComponent();
 			this.criteria = criteria;

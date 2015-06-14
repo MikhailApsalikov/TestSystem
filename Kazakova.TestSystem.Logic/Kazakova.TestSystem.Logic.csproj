@@ -103,6 +103,8 @@
     <Compile Include="Enums\Criteries.cs" />
     <Compile Include="Enums\EnumExtensions.cs" />
     <Compile Include="Enums\OperationTypes.cs" />
+    <Compile Include="Fake\FakeTester.cs" />
+    <Compile Include="ITester.cs" />
     <Compile Include="Services\CodeExecutor.cs" />
     <Compile Include="Services\ControlGraphCompiler.cs" />
     <Compile Include="Services\Parser.cs" />

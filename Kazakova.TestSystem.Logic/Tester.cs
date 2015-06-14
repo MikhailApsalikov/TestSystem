@@ -8,7 +8,7 @@
 	using QuickGraph;
 	using Services;
 
-	public class Tester
+	public class Tester : ITester
 	{
 		internal Dictionary<Criteries, BaseCriteria> criteries = new Dictionary<Criteries, BaseCriteria>();
 		private readonly ControlGraph controlGraph;
