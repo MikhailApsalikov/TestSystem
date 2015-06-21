@@ -15,7 +15,7 @@
 			this.fileContent = fileContent;
 		}
 
-		public BidirectionalGraph<object, IEdge<object>> GetBidirectionGraphForWholeGraph()
+		public BidirectionalGraph<object, IEdge<object>> GetBidirectionGraphForWholeGraph() // TODO
 		{
 			var result = new BidirectionalGraph<object, IEdge<object>>();
 			result.AddVertex("Начало");
@@ -38,12 +38,12 @@
 			result.AddEdge(new Edge<object>("10", "11"));
 			result.AddEdge(new Edge<object>("11", "19"));
 
-			result.AddEdge(new Edge<object>("12", "15"));
-			result.AddEdge(new Edge<object>("12", "13"));
-			result.AddEdge(new Edge<object>("13", "14"));
-			result.AddEdge(new Edge<object>("14", "12"));
-			result.AddEdge(new Edge<object>("14", "15"));
 			result.AddEdge(new Edge<object>("15", "19"));
+			result.AddEdge(new Edge<object>("14", "12"));
+			result.AddEdge(new Edge<object>("12", "15"));
+			result.AddEdge(new Edge<object>("14", "15"));
+			result.AddEdge(new Edge<object>("13", "14"));
+			result.AddEdge(new Edge<object>("12", "13"));
 
 			result.AddEdge(new Edge<object>("03", "04"));
 			result.AddEdge(new Edge<object>("04", "03"));
@@ -141,7 +141,7 @@
 			}
 		}
 
-		public string GetRequiredParametersForPathAsString(Criteries criteria, int pathId)
+		public string GetRequiredParametersForPathAsString(Criteries criteria, int pathId) // TODO
 		{
 			switch (criteria)
 			{
@@ -184,6 +184,25 @@
 						}
 					}
 				case Criteries.ConditionsCover:
+					{
+						switch (pathId)
+						{
+							case 0:
+								return "level = 1";
+							case 1:
+								return "factor = 6; level = 2";
+							case 2:
+								return "factor = -100; level = 2";
+							case 3:
+								return "level = 3";
+							case 4:
+								return "level = 100; factor = 0; k = 1";
+							case 5:
+								return "level = 100; factor = 2; k = 11";
+							default:
+								throw new ArgumentException("Данного пути не существует");
+						}
+					}
 				case Criteries.SolutionsAndConditionsCover:
 					{
 						switch (pathId)
@@ -199,7 +218,7 @@
 							case 4:
 								return "level = 100; factor = 0; k = 11";
 							case 5:
-								return "level = 100; factor = 2; k = 0";
+								return "level = 100; factor = 2; k = 1";
 							default:
 								throw new ArgumentException("Данного пути не существует");
 						}
@@ -211,7 +230,7 @@
 			}
 		}
 
-		public string ExecuteCodeAndGetResultAsString(Criteries criteria, int pathId)
+		public string ExecuteCodeAndGetResultAsString(Criteries criteria, int pathId) // TODO
 		{
 			switch (criteria)
 			{
@@ -254,6 +273,25 @@
 						}
 					}
 				case Criteries.ConditionsCover:
+					{
+						switch (pathId)
+						{
+							case 0:
+								return "16";
+							case 1:
+								return "8";
+							case 2:
+								return "1";
+							case 3:
+								return "0";
+							case 4:
+								return "50";
+							case 5:
+								return "50";
+							default:
+								throw new ArgumentException("Данного пути не существует");
+						}
+					}
 				case Criteries.SolutionsAndConditionsCover:
 					{
 						switch (pathId)
@@ -319,7 +357,7 @@
         }
       default :
       {
-16        if (factor==0 || k > 10)
+16        if (factor==0 && k > 10)
           {
 17            level=level*4;
           }          

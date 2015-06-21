@@ -34,7 +34,7 @@ return level;
         }
     default :
         {
-            if (factor==0 || k >10)
+            if (factor==0 && k >10)
             {
                 level=level*4;               
             }          
